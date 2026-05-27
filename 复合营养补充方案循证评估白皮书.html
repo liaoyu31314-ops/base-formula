@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复合营养补充方案循证评估白皮书</title>
+<style>
+/* ====== CSS Reset & Base ====== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-dark: #0A0C10;
+  --bg-light: #F4F4F1;
+  --bg-white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-sec: #4A4A4A;
+  --gold: #D4AF37;
+  --teal: #2A4B45;
+  --brick: #C8483F;
+  --border: #EAEAEA;
+  --font-serif: "Georgia", "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+  --font-mono: "Courier New", monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg-light);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====== Hero ====== */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  opacity: 0.03;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px);
+}
+.hero-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%);
+  opacity: 0.1;
+}
+.hero-inner { position: relative; z-index: 2; padding: 0 5vw; max-width: 900px; width: 100%; }
+.hero-subtitle {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(10px, 2vw, 14px);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-bottom: 4vw;
+}
+.hero h1 {
+  font-size: 7vw; font-weight: 700;
+  color: #fff; line-height: 1.25;
+  word-break: normal; overflow-wrap: break-word;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards 0.2s;
+}
+@media (min-width: 768px) { .hero h1 { font-size: 4vw; } }
+
+.hero-line {
+  height: 1px; margin: 24px auto;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  width: 0;
+  animation: expandLine 1s ease forwards 0.5s;
+}
+@keyframes expandLine { to { width: 40%; } }
+
+.hero-desc {
+  font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.7);
+  line-height: 1.7; margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards 0.8s;
+}
+.hero-meta {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards 1.2s;
+}
+.hero-meta span.gold { color: var(--gold); }
+
+.scroll-hint {
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  opacity: 0.35;
+  animation: fadeInUp 0.6s ease forwards 1.5s;
+}
+.scroll-hint span { font-size: 9px; letter-spacing: 3px; color: #fff; text-transform: uppercase; font-family: var(--font-mono); }
+.scroll-hint .bar { width: 1px; height: 28px; background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent); }
+
+/* ====== Layout ====== */
+.section { padding: 80px 5vw; max-width: 1000px; margin: 0 auto; }
+@media (min-width: 768px) { .section { padding: 100px 80px; } }
+
+/* ====== TOC ====== */
+.toc-list { list-style: none; }
+.toc-list li {
+  padding: 14px 0; border-bottom: 1px dotted #E0E0E0;
+  cursor: pointer; transition: color 0.2s;
+  font-size: 15px; font-weight: 500;
+}
+.toc-list li:hover { color: var(--teal); }
+.toc-list li .sub { display: block; font-size: 12px; color: var(--text-sec); margin-top: 3px; font-weight: 400; }
+
+/* ====== Section Header ====== */
+.sec-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.badge {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--text);
+  color: #fff; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+  flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.sec-header .line { height: 1px; flex: 1; max-width: 60px; background: #D1D1D1; }
+
+.section h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+.section h2 + .subtitle { font-size: 16px; color: var(--text-sec); font-family: var(--font-serif); font-style: italic; margin-bottom: 32px; }
+
+/* ====== Animations ====== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ====== Cards / Boxes ====== */
+.card {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.card-bar { height: 4px; background: linear-gradient(90deg, var(--teal), var(--gold)); }
+.card-inner { padding: 28px; }
+
+.box { border-radius: 0 10px 10px 0; padding: 22px 26px 22px 48px; margin: 16px 0; }
+.box-green { border-left: 3px solid var(--teal); background: rgba(42,75,69,0.06); }
+.box-amber { border-left: 3px solid var(--gold); background: rgba(212,175,55,0.06); }
+.box-red { border-left: 3px solid var(--brick); background: rgba(200,72,63,0.06); }
+.box-blue { border-left: 3px solid #1565C0; background: rgba(21,101,192,0.06); }
+
+.box-tag {
+  display: inline-block; font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; font-family: var(--font-mono);
+  padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; font-weight: 600;
+}
+.box-green .box-tag { background: rgba(42,75,69,0.12); color: var(--teal); }
+.box-amber .box-tag { background: rgba(184,134,11,0.12); color: #9A5B1A; }
+.box-blue .box-tag { background: rgba(21,101,192,0.12); color: #1565C0; }
+.box-red .box-tag { background: rgba(200,72,63,0.12); color: var(--brick); }
+
+/* ====== Tables ====== */
+.tbl-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -20px; padding: 0 20px; }
+@media (min-width: 768px) { .tbl-wrapper { margin: 0; padding: 0; } }
+
+.tbl { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.03); overflow: hidden; min-width: 640px; }
+.tbl table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl thead { background: var(--text); color: #fff; }
+.tbl th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
+.tbl td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.tbl tbody tr { transition: background 0.15s; }
+.tbl tbody tr:hover { background: rgba(42,75,69,0.04); }
+.tbl tbody tr:last-child td { border-bottom: none; }
+.tbl .sec-row { background: #F5F5F0; font-weight: 600; font-size: 12px; }
+
+/* ====== Pills ====== */
+.pill {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+}
+.pill-safe { background: #E8F5E9; color: var(--teal); }
+.pill-warn { background: #FFF8E1; color: #9A5B1A; }
+.pill-alert { background: #FCE4EC; color: var(--brick); }
+
+/* ====== Evidence Cards ====== */
+.ev-grid { display: grid; gap: 16px; }
+@media (min-width: 768px) { .ev-grid.cols-2 { grid-template-columns: 1fr 1fr; } .ev-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; } .ev-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+.ev-card {
+  background: #fff; border-radius: 16px; padding: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04); border: 1px solid var(--border);
+  text-align: center; transition: box-shadow 0.3s;
+}
+.ev-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+.ev-card .num { font-family: var(--font-serif); font-size: 36px; font-weight: 700; color: var(--teal); line-height: 1.2; }
+.ev-card .suffix { font-family: var(--font-serif); font-size: 20px; color: var(--teal); }
+.ev-card .label { font-size: 13px; color: var(--text-sec); font-weight: 500; margin-top: 6px; }
+.ev-card .sub { font-size: 11px; color: var(--text-sec); opacity: 0.7; margin-top: 3px; }
+
+/* ====== Dose Bars ====== */
+.dose-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.dose-bar .label { font-size: 13px; color: var(--text-sec); min-width: 70px; text-align: right; font-weight: 500; }
+.dose-bar .track { flex: 1; height: 10px; background: #EAEAEA; border-radius: 999px; overflow: hidden; position: relative; }
+.dose-bar .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal), #3D6B62); width: 0; transition: width 1.2s ease; }
+.dose-bar .fill-gold { background: linear-gradient(90deg, var(--gold), #E8C84A); }
+.dose-bar .val { font-size: 12px; color: var(--text-sec); min-width: 60px; text-align: right; font-family: var(--font-mono); }
+
+/* ====== Typography ====== */
+p { font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; }
+h4 { font-size: 15px; font-weight: 700; margin: 16px 0 8px; }
+strong { font-weight: 600; }
+
+.gold-line { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 40px 0; }
+
+/* ====== Back to Top ====== */
+#btt {
+  position: fixed; bottom: 20px; right: 20px; z-index: 100;
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: var(--text); color: var(--gold); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+#btt.show { opacity: 1; pointer-events: auto; }
+
+/* ====== Print ====== */
+@media print {
+  #btt, .scroll-hint { display: none !important; }
+  body { background: #fff !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <p class="hero-subtitle">Evidence-Based White Paper</p>
+    <h1>复合营养补充方案循证评估白皮书</h1>
+    <div class="hero-line"></div>
+    <p class="hero-desc">基于最新研究综述、大规模队列分析与随机对照试验<br>对六组件联合营养方案的系统性循证评估与安全性分析</p>
+    <div class="hero-meta">
+      <span>2025 年 6 月</span>
+      <span class="gold">|</span>
+      <span>中国 DRIs 2023 基准</span>
+      <span class="gold">|</span>
+      <span>EFSA 科学意见参照</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="bar"></div>
+  </div>
+</section>
+
+<!-- ====== MAIN ====== -->
+<main style="background:var(--bg-light);">
+
+<!-- TOC -->
+<section class="section" id="toc">
+  <div class="reveal">
+    <div class="sec-header">
+      <span class="badge">&sect;</span>
+      <div>
+        <h2 style="margin-bottom:2px;">目录</h2>
+        <p style="font-size:13px;color:var(--text-sec);font-family:var(--font-serif);font-style:italic;">Table of Contents</p>
+      </div>
+    </div>
+  </div>
+  <ul class="toc-list reveal">
+    <li onclick="document.getElementById('abstract').scrollIntoView({behavior:'smooth'})">摘要</li>
+    <li onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'})">一、六组件联合方案概述</li>
+    <li onclick="document.getElementById('ch2').scrollIntoView({behavior:'smooth'})">二、各产品完整成分明细<span class="sub">Methyl Multi &middot; Bone Maker &middot; Albion Calcium &middot; Optimal Focus &middot; Triple Fiber &middot; 低钠盐</span></li>
+    <li onclick="document.getElementById('ch3').scrollIntoView({behavior:'smooth'})">三、各产品成分汇总矩阵</li>
+    <li onclick="document.getElementById('ch4').scrollIntoView({behavior:'smooth'})">四、中国成人膳食基线与中欧标准对照</li>
+    <li onclick="document.getElementById('ch5').scrollIntoView({behavior:'smooth'})">五、营养素总摄入汇总：双标准对照</li>
+    <li onclick="document.getElementById('ch6').scrollIntoView({behavior:'smooth'})">六、关键维度循证深度分析<span class="sub">骨代谢（含D3-K2-钙协同） &middot; 认知 &middot; 甲基化 &middot; 膳食纤维 &middot; 钠钾平衡 &middot; 矿物质网络 &middot; 抗氧化</span></li>
+    <li onclick="document.getElementById('ch7').scrollIntoView({behavior:'smooth'})">七、安全性评估：双标准 UL 对照</li>
+    <li onclick="document.getElementById('ch8').scrollIntoView({behavior:'smooth'})">八、特殊人群适配与风险提示</li>
+    <li onclick="document.getElementById('ch9').scrollIntoView({behavior:'smooth'})">九、结论</li>
+    <li onclick="document.getElementById('refs').scrollIntoView({behavior:'smooth'})">参考文献</li>
+  </ul>
+</section>
+
+<!-- ABSTRACT -->
+<section class="section" id="abstract">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">0</span><div class="sec-header line" style="flex:1;max-width:60px;"></div></div>
+    <h2>摘要</h2>
+    <p class="subtitle" style="margin-bottom:28px;">Abstract</p>
+  </div>
+  <div class="card reveal">
+    <div class="card-bar"></div>
+    <div class="card-inner">
+      <p><strong>目的</strong>：以《中国居民膳食营养素参考摄入量（DRIs 2023）》为首要评估基准，以欧洲食品安全局（EFSA）最新科学意见为辅助参照，结合2019-2025年间发表的高影响力队列研究、Meta分析和随机对照试验（RCT），对六组件联合营养补充方案进行系统性循证评估。</p>
+      <p><strong>方法</strong>：提取方案中4种胶囊制剂（每日7粒）、膳食纤维粉（每日13 g）及低钠盐（烹饪替代）的全部微量营养素与生物活性成分，与中国成人膳食摄入中位数叠加后，对照中国DRIs 2023和EFSA DRV双标准进行定量评估。各关键维度的有效性证据通过PubMed/Medline检索的最新系统综述和原始研究进行循证补充。</p>
+      <p><strong>结果</strong>：方案覆盖30余种微量营养素与生物活性成分。在23项评估营养素中，20项达到或接近中国DRIs 2023标准。骨代谢支持链（MCH-Cal + Albion螯合钙 + D3 + K2-MK7 + 硼）、认知多靶点协同配方（胞磷胆碱 + alpha-GPC + 胆碱（补充剂92 mg）+ 尿苷 + DHA + 石杉碱甲）、全活性B族甲基化设计（Quatrefolic + 甲基B12 + PLP）为三大量化优势维度。</p>
+      <p><strong>安全性</strong>：所有指标在中国UL框架下均处于安全区间。EFSA框架下锌17.5 mg占UL 70%、锰4.8-5.3 mg占草案UL 60-66%，均处于可接受范围。钾2,388 mg未达EFSA AI（3,500 mg），核心获益在于钠钾比改善而非绝对钾量达标。</p>
+      <p><strong>结论</strong>：该方案是一个设计科学、循证基础扎实、安全性良好的复合营养补充架构，对中国北方、农村、日照不足人群及MTHFR突变携带者具有高适配性。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 1 -->
+<section class="section" id="ch1">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">1</span><div class="line"></div></div>
+    <h2>六组件联合方案概述</h2>
+    <p class="subtitle">评估对象为由4种胶囊制剂、低钠盐及膳食纤维粉构成的每日固定补充组合</p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;">
+    <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span>
+    <span style="font-size:13px;font-weight:600;">表 1 &nbsp;六组件联合方案产品规格与服用剂量</span>
+  </div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl">
+      <table>
+        <thead><tr><th>组件</th><th>产品规格</th><th>日服用量</th><th>剂型特点</th><th style="text-align:right">日成本</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pure Therapro Rx Methyl Multi</strong></td><td>2粒/份</td><td>1粒（半份）</td><td>甲基化活性形式，低敏素食配方</td><td style="text-align:right;font-family:var(--font-mono)">~1.95 元</td></tr>
+          <tr><td><strong>Doctor's Best Calcium Bone Maker</strong></td><td>3粒/份</td><td>4粒（4/3份）</td><td>MCH-Cal微晶羟磷灰石钙，含I型胶原蛋白</td><td style="text-align:right;font-family:var(--font-mono)">~2.40 元</td></tr>
+          <tr><td><strong>Swanson Albion Calcium</strong></td><td>2粒/份</td><td>1粒（半份）</td><td>Albion双甘氨酸钙螯合物</td><td style="text-align:right;font-family:var(--font-mono)">~0.43 元</td></tr>
+          <tr><td><strong>Seeking Health Optimal Focus</strong></td><td>1粒/份</td><td>1粒（1份）</td><td>含胞磷胆碱、Alpha-GPC、尿苷、AvailOM DHA、石杉碱甲等</td><td style="text-align:right;font-family:var(--font-mono)">~4.50 元</td></tr>
+          <tr><td><strong>Solaray Daily Triple Fiber</strong></td><td>1勺/份（13 g）</td><td>1勺</td><td>Sunfiber水解瓜儿胶、Solnul抗性淀粉、阿拉伯树胶</td><td style="text-align:right;font-family:var(--font-mono)">~4.05 元</td></tr>
+          <tr><td><strong>低钠盐</strong></td><td>烹饪用盐</td><td>6-8 g/天</td><td>含约25%氯化钾，替代普通食盐</td><td style="text-align:right;font-family:var(--font-mono)">纳入膳食</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="reveal" style="font-size:12px;color:var(--text-sec);margin-top:10px;"><strong>合计</strong>：每日服用胶囊7粒，膳食纤维粉1勺（13 g），低钠盐作为烹饪用盐纳入整体营养架构。每日补充剂总成本约13.33元。</p>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="section" id="ch2">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">2</span><div class="line"></div></div>
+    <h2>各产品完整成分明细</h2>
+    <p class="subtitle">逐一列明六组件的完整成分表，包括各营养素的化学形式、每份含量、实际日摄入量及原料来源备注</p>
+  </div>
+
+  <!-- 2.1 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin-bottom:16px;font-size:15px;">
+    <strong>2.1 Pure Therapro Rx Methyl Multi</strong> <span style="color:var(--text-sec);font-size:13px;">| 240粒 468元 | 日服1粒（半份）~1.95元/日</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 2 &nbsp;Methyl Multi 日摄入成分明细</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl">
+      <table>
+        <thead><tr><th>营养素</th><th style="text-align:right">每份含量</th><th style="text-align:right">实际摄入</th><th>化学形式 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>维生素 A</td><td style="text-align:right;color:var(--text-sec)">675 &mu;g RAE</td><td style="text-align:right"><strong>337.5 &mu;g RAE</strong></td><td>棕榈酸视黄酯</td></tr>
+          <tr><td>维生素 C</td><td style="text-align:right;color:var(--text-sec)">125 mg</td><td style="text-align:right"><strong>62.5 mg</strong></td><td>抗坏血酸混合盐</td></tr>
+          <tr><td>维生素 D3</td><td style="text-align:right;color:var(--text-sec)">2.5 &mu;g (100 IU)</td><td style="text-align:right"><strong>1.25 &mu;g (50 IU)</strong></td><td>地衣来源植物性胆钙化醇</td></tr>
+          <tr><td>维生素 E</td><td style="text-align:right;color:var(--text-sec)">15 mg</td><td style="text-align:right"><strong>7.5 mg</strong></td><td>D-alpha-生育酚</td></tr>
+          <tr><td>维生素 B1</td><td style="text-align:right;color:var(--text-sec)">5 mg</td><td style="text-align:right"><strong>2.5 mg</strong></td><td>盐酸硫胺素</td></tr>
+          <tr><td>维生素 B2</td><td style="text-align:right;color:var(--text-sec)">10 mg</td><td style="text-align:right"><strong>5.0 mg</strong></td><td>RFP活性辅酶形式</td></tr>
+          <tr><td>烟酸</td><td style="text-align:right;color:var(--text-sec)">32 mg</td><td style="text-align:right"><strong>16.0 mg</strong></td><td>烟酰胺</td></tr>
+          <tr><td>维生素 B6</td><td style="text-align:right;color:var(--text-sec)">10 mg</td><td style="text-align:right"><strong>5.0 mg</strong></td><td>磷酸吡哆醛（PLP活性辅酶形式）</td></tr>
+          <tr><td>叶酸</td><td style="text-align:right;color:var(--text-sec)">850 &mu;g DFE</td><td style="text-align:right"><strong>425 &mu;g DFE</strong></td><td>Quatrefolic 6S-5-甲基叶酸</td></tr>
+          <tr><td>维生素 B12</td><td style="text-align:right;color:var(--text-sec)">250 &mu;g</td><td style="text-align:right"><strong>125 &mu;g</strong></td><td>MecobalActive 甲基钴胺素</td></tr>
+          <tr><td>生物素</td><td style="text-align:right;color:var(--text-sec)">500 &mu;g</td><td style="text-align:right"><strong>250 &mu;g</strong></td><td>&mdash;</td></tr>
+          <tr><td>泛酸</td><td style="text-align:right;color:var(--text-sec)">100 mg</td><td style="text-align:right"><strong>50 mg</strong></td><td>D-泛酸钙</td></tr>
+          <tr><td>胆碱</td><td style="text-align:right;color:var(--text-sec)">18 mg</td><td style="text-align:right"><strong>9 mg</strong></td><td>VitaCholine 酒石酸胆碱</td></tr>
+          <tr><td>钙</td><td style="text-align:right;color:var(--text-sec)">50 mg</td><td style="text-align:right"><strong>25 mg</strong></td><td>DimaCal 苹果酸二钙</td></tr>
+          <tr><td>碘</td><td style="text-align:right;color:var(--text-sec)">75 &mu;g</td><td style="text-align:right"><strong>37.5 &mu;g</strong></td><td>碘化钾</td></tr>
+          <tr><td>镁</td><td style="text-align:right;color:var(--text-sec)">50 mg</td><td style="text-align:right"><strong>25 mg</strong></td><td>Albion 苹果酸二镁</td></tr>
+          <tr><td>锌</td><td style="text-align:right;color:var(--text-sec)">6.5 mg</td><td style="text-align:right"><strong>3.25 mg</strong></td><td>TRAACS 甘氨酸锌螯合物</td></tr>
+          <tr><td>硒</td><td style="text-align:right;color:var(--text-sec)">50 &mu;g</td><td style="text-align:right"><strong>25 &mu;g</strong></td><td>Albion 甘氨酸硒复合物</td></tr>
+          <tr><td>铜</td><td style="text-align:right;color:var(--text-sec)">0.5 mg</td><td style="text-align:right"><strong>0.25 mg</strong></td><td>TRAACS 甘氨酸铜螯合物</td></tr>
+          <tr><td>锰</td><td style="text-align:right;color:var(--text-sec)">0.25 mg</td><td style="text-align:right"><strong>0.125 mg</strong></td><td>TRAACS 甘氨酸锰螯合物</td></tr>
+          <tr><td>铬</td><td style="text-align:right;color:var(--text-sec)">250 &mu;g</td><td style="text-align:right"><strong>125 &mu;g</strong></td><td>TRAACS 烟酸甘氨酸铬</td></tr>
+          <tr><td>钼</td><td style="text-align:right;color:var(--text-sec)">25 &mu;g</td><td style="text-align:right"><strong>12.5 &mu;g</strong></td><td>TRAACS 甘氨酸钼螯合物</td></tr>
+          <tr><td>钾</td><td style="text-align:right;color:var(--text-sec)">49.5 mg</td><td style="text-align:right"><strong>24.75 mg</strong></td><td>甘氨酸钾复合物</td></tr>
+          <tr><td>TMG</td><td style="text-align:right;color:var(--text-sec)">75 mg</td><td style="text-align:right"><strong>37.5 mg</strong></td><td>甲基供体</td></tr>
+          <tr><td>肌醇</td><td style="text-align:right;color:var(--text-sec)">18 mg</td><td style="text-align:right"><strong>9 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>PABA</td><td style="text-align:right;color:var(--text-sec)">6.5 mg</td><td style="text-align:right"><strong>3.25 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>苯磷硫胺</td><td style="text-align:right;color:var(--text-sec)">5 mg</td><td style="text-align:right"><strong>2.5 mg</strong></td><td>BenfoPure 脂溶性B1</td></tr>
+          <tr><td>硼</td><td style="text-align:right;color:var(--text-sec)">750 &mu;g</td><td style="text-align:right"><strong>375 &mu;g</strong></td><td>Albion Bororganic 甘氨酸硼</td></tr>
+          <tr><td>钒</td><td style="text-align:right;color:var(--text-sec)">200 &mu;g</td><td style="text-align:right"><strong>100 &mu;g</strong></td><td>TRAACS 烟酸甘氨酸钒</td></tr>
+          <tr><td>维生素 K2（MK-7）</td><td style="text-align:right;color:var(--text-sec)">30 &mu;g</td><td style="text-align:right"><strong>15 &mu;g</strong></td><td>MenaQ7 甲萘醌-7</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2.2 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <strong>2.2 Doctor's Best Calcium Bone Maker Complex</strong> <span style="color:var(--text-sec);font-size:13px;">| 180粒 108元 | 日服4粒（4/3份）~2.40元/日</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 3 &nbsp;Calcium Bone Maker 日摄入成分明细</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl">
+      <table>
+        <thead><tr><th>营养素</th><th style="text-align:right">每份（3粒）</th><th style="text-align:right">实际摄入（4粒）</th><th>化学形式 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>维生素 C</td><td style="text-align:right;color:var(--text-sec)">125 mg</td><td style="text-align:right"><strong>166.7 mg</strong></td><td>抗坏血酸</td></tr>
+          <tr><td>维生素 D3</td><td style="text-align:right;color:var(--text-sec)">23 &mu;g (900 IU)</td><td style="text-align:right"><strong>30.7 &mu;g (1200 IU)</strong></td><td>胆钙化醇</td></tr>
+          <tr><td>维生素 K2（MK-7）</td><td style="text-align:right;color:var(--text-sec)">40 &mu;g</td><td style="text-align:right"><strong>53.3 &mu;g</strong></td><td>甲萘醌-7</td></tr>
+          <tr><td>钙</td><td style="text-align:right;color:var(--text-sec)">300 mg</td><td style="text-align:right"><strong>400 mg</strong></td><td>微晶羟磷灰石钙（MCH-Cal）+ 辅助钙源</td></tr>
+          <tr><td>磷</td><td style="text-align:right;color:var(--text-sec)">123 mg</td><td style="text-align:right"><strong>164 mg</strong></td><td>随MCH-Cal天然共存</td></tr>
+          <tr><td>镁</td><td style="text-align:right;color:var(--text-sec)">150 mg</td><td style="text-align:right"><strong>200 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>锌</td><td style="text-align:right;color:var(--text-sec)">6 mg</td><td style="text-align:right"><strong>8.0 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>铜</td><td style="text-align:right;color:var(--text-sec)">0.6 mg</td><td style="text-align:right"><strong>0.8 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>锰</td><td style="text-align:right;color:var(--text-sec)">1 mg</td><td style="text-align:right"><strong>1.3 mg</strong></td><td>&mdash;</td></tr>
+          <tr><td>钾</td><td style="text-align:right;color:var(--text-sec)">49 mg</td><td style="text-align:right"><strong>65.3 mg</strong></td><td>&mdash;</td></tr>
+          <tr class="sec-row"><td colspan="4">非矿物质活性成分</td></tr>
+          <tr><td>MCH-Cal</td><td style="text-align:right;color:var(--text-sec)">1,363 mg</td><td style="text-align:right"><strong>1,817.3 mg</strong></td><td>天然骨基质来源</td></tr>
+          <tr><td>I型胶原蛋白</td><td style="text-align:right;color:var(--text-sec)">273 mg</td><td style="text-align:right"><strong>364 mg</strong></td><td>与骨矿物质同源的胶原框架</td></tr>
+          <tr><td>硼</td><td style="text-align:right;color:var(--text-sec)">2 mg</td><td style="text-align:right"><strong>2.7 mg</strong></td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2.3 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <strong>2.3 Swanson Albion Calcium</strong> <span style="color:var(--text-sec);font-size:13px;">| 180粒 77元 | 日服1粒（半份）~0.43元/日</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 4 &nbsp;Swanson Albion 日摄入成分明细</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:400px;">
+      <table>
+        <thead><tr><th>营养素</th><th style="text-align:right">每份（2粒）</th><th style="text-align:right">实际摄入（1粒）</th><th>化学形式 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>维生素 D3</td><td style="text-align:right;color:var(--text-sec)">2.5 &mu;g (100 IU)</td><td style="text-align:right"><strong>1.25 &mu;g (50 IU)</strong></td><td>胆钙化醇</td></tr>
+          <tr><td>钙</td><td style="text-align:right;color:var(--text-sec)">360 mg</td><td style="text-align:right"><strong>180 mg</strong></td><td>Albion双甘氨酸钙螯合物</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2.4 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <strong>2.4 Seeking Health Optimal Focus</strong> <span style="color:var(--text-sec);font-size:13px;">| 60粒 270元 | 日服1粒（1份）~4.50元/日</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 5 &nbsp;Optimal Focus 日摄入成分明细</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:500px;">
+      <table>
+        <thead><tr><th>营养素 / 成分</th><th style="text-align:right">每份（1粒）</th><th style="text-align:right">实际摄入</th><th>化学形式 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>泛酸</td><td style="text-align:right;color:var(--text-sec)">8 mg</td><td style="text-align:right"><strong>8 mg</strong></td><td>泛酸钙</td></tr>
+          <tr><td>胆碱</td><td style="text-align:right;color:var(--text-sec)">83 mg</td><td style="text-align:right"><strong>83 mg</strong></td><td>胞磷胆碱钠（Xerenoos&reg;）</td></tr>
+          <tr><td>镁</td><td style="text-align:right;color:var(--text-sec)">16 mg</td><td style="text-align:right"><strong>16 mg</strong></td><td>苹果酸二镁（Albion&reg;）</td></tr>
+          <tr class="sec-row"><td colspan="4">Optimal Focus 专利配方混合物 &mdash; 合计 300 mg</td></tr>
+          <tr><td style="padding-left:28px;">尿苷</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td>尿苷 5'-单磷酸七水合二钠（UMP）</td></tr>
+          <tr><td style="padding-left:28px;">假马齿苋提取物</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td><em>Bacopa monnieri</em> 地上部分（BacoMind&reg;）</td></tr>
+          <tr><td style="padding-left:28px;">DHA</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td>AvailOM&reg; 高DHA藻油Omega-赖氨酸复合物</td></tr>
+          <tr><td style="padding-left:28px;">西洋参</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td><em>Panax quinquefolius</em></td></tr>
+          <tr><td style="padding-left:28px;">Alpha-GPC</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td>AlphaSize&reg; 甘油磷酸胆碱</td></tr>
+          <tr><td style="padding-left:28px;">石杉碱甲</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">含于300 mg</td><td><em>Huperzia serrata</em> 提取物</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2.5 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <strong>2.5 Solaray Daily Triple Fiber Powder</strong> <span style="color:var(--text-sec);font-size:13px;">| 401 g 122元 | 日服1勺（13 g）~4.05元/日</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 6 &nbsp;Triple Fiber Powder 日摄入成分明细</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:500px;">
+      <table>
+        <thead><tr><th>成分</th><th style="text-align:right">每份（13 g）</th><th style="text-align:right">实际摄入</th><th>形式 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>总碳水化合物</td><td style="text-align:right;color:var(--text-sec)">12 g</td><td style="text-align:right"><strong>12 g</strong></td><td>&mdash;</td></tr>
+          <tr><td>膳食纤维（总量）</td><td style="text-align:right;color:var(--text-sec)">11 g</td><td style="text-align:right"><strong>11 g</strong></td><td>可溶性/不溶性混合</td></tr>
+          <tr><td style="padding-left:28px;">Sunfiber（部分水解瓜儿胶）</td><td style="text-align:right;color:var(--text-sec)">7 g</td><td style="text-align:right"><strong>7 g</strong></td><td>可溶性膳食纤维，低发酵性，温和缓泻</td></tr>
+          <tr><td style="padding-left:28px;">Solnul（抗性马铃薯淀粉）</td><td style="text-align:right;color:var(--text-sec)">3.5 g</td><td style="text-align:right"><strong>3.5 g</strong></td><td>抗性淀粉，益生元特性，支持短链脂肪酸生成</td></tr>
+          <tr><td style="padding-left:28px;">阿拉伯树胶</td><td style="text-align:right;color:var(--text-sec)">2.8 g</td><td style="text-align:right"><strong>2.8 g</strong></td><td>可溶性膳食纤维，支持肠道屏障与血糖稳态</td></tr>
+          <tr><td>总糖</td><td style="text-align:right;color:var(--text-sec)">1 g</td><td style="text-align:right"><strong>1 g</strong></td><td>&mdash;</td></tr>
+          <tr><td>钠</td><td style="text-align:right;color:var(--text-sec)">12 mg</td><td style="text-align:right"><strong>12 mg</strong></td><td>微量钠贡献</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2.6 -->
+  <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <strong>2.6 低钠盐</strong> <span style="color:var(--text-sec);font-size:13px;">| 烹饪用盐 | 日用量6-8 g</span>
+  </div>
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 7 &nbsp;低钠盐日摄入贡献</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:400px;">
+      <table>
+        <thead><tr><th>项目</th><th style="text-align:right">日用量</th><th>核心贡献</th></tr></thead>
+        <tbody>
+          <tr><td>氯化钾</td><td style="text-align:right;color:var(--text-sec)">1.5-2.0 g（占盐重25%）</td><td>钾约780-1040 mg</td></tr>
+          <tr><td>氯化钠</td><td style="text-align:right;color:var(--text-sec)">4.5-6.0 g</td><td>减钠约30%（较普通食盐）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- ====== CHAPTER 3 ====== -->
+<section class="section" id="ch3">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">3</span><div class="line"></div></div>
+    <h2>各产品成分汇总矩阵</h2>
+    <p class="subtitle">将六组件中所有微量营养素与生物活性成分按来源分解，建立完整的成分溯源矩阵</p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 8 &nbsp;全方案营养素来源分解矩阵</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:900px;">
+      <table style="font-size:12px;">
+        <thead><tr><th style="min-width:140px">营养素 / 成分</th><th style="text-align:right">Methyl<br>Multi</th><th style="text-align:right">Bone<br>Maker</th><th style="text-align:right">Albion<br>Ca</th><th style="text-align:right">Optimal<br>Focus</th><th style="text-align:right">Triple<br>Fiber</th><th style="text-align:right">低钠盐</th><th style="text-align:right">膳食<br>估算</th><th style="text-align:right">总计</th></tr></thead>
+        <tbody>
+          <tr class="sec-row"><td colspan="9">脂溶性维生素</td></tr>
+          <tr><td>维生素A (&mu;g RAE)</td><td style="text-align:right;color:var(--text-sec)">337.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">468</td><td style="text-align:right"><strong>805.5</strong></td></tr>
+          <tr><td>维生素D3 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">1.25</td><td style="text-align:right;color:var(--text-sec)">30.7</td><td style="text-align:right;color:var(--text-sec)">1.25</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">2</td><td style="text-align:right"><strong>35.2</strong></td></tr>
+          <tr><td>维生素E (mg)</td><td style="text-align:right;color:var(--text-sec)">7.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食广泛</td><td style="text-align:right"><strong>7.5+</strong></td></tr>
+          <tr><td>维生素K总量 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">15 (K2)</td><td style="text-align:right;color:var(--text-sec)">53.3 (K2)</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">86 (K1为主)</td><td style="text-align:right"><strong>154.3</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">水溶性维生素</td></tr>
+          <tr><td>维生素B1 (mg)</td><td style="text-align:right;color:var(--text-sec)">2.5+2.5*</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">0.7</td><td style="text-align:right"><strong>~5.0</strong></td></tr>
+          <tr><td>维生素B2 (mg)</td><td style="text-align:right;color:var(--text-sec)">5.0</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">0.7</td><td style="text-align:right"><strong>~5.7</strong></td></tr>
+          <tr><td>烟酸 (mg NE)</td><td style="text-align:right;color:var(--text-sec)">16.0</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">12.9</td><td style="text-align:right"><strong>~28.9</strong></td></tr>
+          <tr><td>维生素B6 (mg)</td><td style="text-align:right;color:var(--text-sec)">5.0</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>5.0</strong></td></tr>
+          <tr><td>叶酸 (&mu;g DFE)</td><td style="text-align:right;color:var(--text-sec)">425</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>425</strong></td></tr>
+          <tr><td>维生素B12 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">125</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>125</strong></td></tr>
+          <tr><td>生物素 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">250</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食广泛</td><td style="text-align:right"><strong>250+</strong></td></tr>
+          <tr><td>泛酸 (mg)</td><td style="text-align:right;color:var(--text-sec)">50</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">8</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>58</strong></td></tr>
+          <tr><td>维生素C (mg)</td><td style="text-align:right;color:var(--text-sec)">62.5</td><td style="text-align:right;color:var(--text-sec)">166.7</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">51</td><td style="text-align:right"><strong>280</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">矿物质</td></tr>
+          <tr><td>钙 (mg)</td><td style="text-align:right;color:var(--text-sec)">25</td><td style="text-align:right;color:var(--text-sec)">400</td><td style="text-align:right;color:var(--text-sec)">180</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">288</td><td style="text-align:right"><strong>893</strong></td></tr>
+          <tr><td>磷 (mg)</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">164</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">890</td><td style="text-align:right"><strong>1054</strong></td></tr>
+          <tr><td>镁 (mg)</td><td style="text-align:right;color:var(--text-sec)">25</td><td style="text-align:right;color:var(--text-sec)">200</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">16</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">229</td><td style="text-align:right"><strong>470</strong></td></tr>
+          <tr><td>锌 (mg)</td><td style="text-align:right;color:var(--text-sec)">3.25</td><td style="text-align:right;color:var(--text-sec)">8.0</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">6.2</td><td style="text-align:right"><strong>17.5</strong></td></tr>
+          <tr><td>硒 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">25</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">35</td><td style="text-align:right"><strong>60</strong></td></tr>
+          <tr><td>铜 (mg)</td><td style="text-align:right;color:var(--text-sec)">0.25</td><td style="text-align:right;color:var(--text-sec)">0.8</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">0.9</td><td style="text-align:right"><strong>1.95</strong></td></tr>
+          <tr><td>锰 (mg)</td><td style="text-align:right;color:var(--text-sec)">0.125</td><td style="text-align:right;color:var(--text-sec)">1.3</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">3.3-3.8</td><td style="text-align:right"><strong>4.7-5.2</strong></td></tr>
+          <tr><td>铬 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">125</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食广泛</td><td style="text-align:right"><strong>125+</strong></td></tr>
+          <tr><td>钼 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">12.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食广泛</td><td style="text-align:right"><strong>12.5+</strong></td></tr>
+          <tr><td>碘 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">37.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">120</td><td style="text-align:right"><strong>157.5</strong></td></tr>
+          <tr><td>钾 (mg)</td><td style="text-align:right;color:var(--text-sec)">24.75</td><td style="text-align:right;color:var(--text-sec)">65.3</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">780-1040</td><td style="text-align:right;color:var(--text-sec)">1398</td><td style="text-align:right"><strong>2268-2528</strong></td></tr>
+          <tr><td>硼 (mg)</td><td style="text-align:right;color:var(--text-sec)">0.375</td><td style="text-align:right;color:var(--text-sec)">2.7</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">~1.5</td><td style="text-align:right"><strong>~4.6</strong></td></tr>
+          <tr><td>钒 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">100</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">微量</td><td style="text-align:right"><strong>100+</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">胆碱与认知活性成分</td></tr>
+          <tr><td>胆碱总量 (mg)</td><td style="text-align:right;color:var(--text-sec)">9</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">83</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">240-269</td><td style="text-align:right"><strong>332-361</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">甲基化支持成分</td></tr>
+          <tr><td>TMG/甜菜碱 (mg)</td><td style="text-align:right;color:var(--text-sec)">37.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食来源</td><td style="text-align:right"><strong>37.5+</strong></td></tr>
+          <tr><td>肌醇 (mg)</td><td style="text-align:right;color:var(--text-sec)">9</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">膳食来源</td><td style="text-align:right"><strong>9+</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">骨代谢活性成分</td></tr>
+          <tr><td>MCH-Cal (mg)</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">1,817</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>1,817</strong></td></tr>
+          <tr><td>I型胶原蛋白 (mg)</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">364</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>364</strong></td></tr>
+          <tr class="sec-row"><td colspan="9">膳食纤维</td></tr>
+          <tr><td>膳食纤维总量 (g)</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">11</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right;color:var(--text-sec)">12-14</td><td style="text-align:right"><strong>23-25</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="reveal" style="font-size:12px;color:var(--text-sec);margin-top:10px;">* 苯磷硫胺（2.5 mg）为脂溶性维生素B1衍生物，与盐酸硫胺素（2.5 mg）共同构成B1双源供给。膳食数据来源于CHNS（中国健康与营养调查）及DRIs 2023。</p>
+</section>
+
+<!-- ====== CHAPTER 4 ====== -->
+<section class="section" id="ch4">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">4</span><div class="line"></div></div>
+    <h2>中国成人膳食基线与中欧标准对照</h2>
+    <p class="subtitle">数据来源于《中国居民膳食营养素参考摄入量（2023版）》、中国健康与营养调查（CHNS）及EFSA膳食参考值（DRV）数据库<sup>[17][19]</sup></p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 9 &nbsp;中国膳食摄入中位数与中欧标准对照</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:700px;">
+      <table>
+        <thead><tr><th>营养素</th><th style="text-align:right">膳食中位数</th><th style="text-align:right">不足率</th><th style="text-align:right">中国 DRIs 2023</th><th style="text-align:right">EFSA PRI/AI</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>钙</td><td style="text-align:right">288.3 mg</td><td style="text-align:right"><span class="pill pill-alert">96.1% 低于 EAR</span></td><td style="text-align:right">RNI 800 mg</td><td style="text-align:right">PRI 950 mg</td><td>城乡普遍不足</td></tr>
+          <tr><td>镁</td><td style="text-align:right">228.9 mg</td><td style="text-align:right"><span class="pill pill-alert">64.4% 低于 EAR</span></td><td style="text-align:right">RNI 330 mg</td><td style="text-align:right">AI 350/300 mg</td><td>EFSA未设PRI</td></tr>
+          <tr><td>维生素A</td><td style="text-align:right">467.8 &mu;g RAE</td><td style="text-align:right"><span class="pill pill-warn">52.6% 低于 RNI</span></td><td style="text-align:right">RNI 700/800 &mu;g</td><td style="text-align:right">PRI 650/500 &mu;g</td><td>植物性来源为主</td></tr>
+          <tr><td>维生素C</td><td style="text-align:right">51.2 mg</td><td style="text-align:right"><span class="pill pill-alert">76.4% 低于 RNI</span></td><td style="text-align:right">RNI 100 mg</td><td style="text-align:right">PRI 110 mg</td><td>&mdash;</td></tr>
+          <tr><td>维生素B1</td><td style="text-align:right">0.7 mg</td><td style="text-align:right"><span class="pill pill-alert">78.0% 低于 RNI</span></td><td style="text-align:right">RNI 1.2/1.4 mg</td><td style="text-align:right">PRI 1.1/0.9 mg</td><td>精制谷物为主食</td></tr>
+          <tr><td>维生素B2</td><td style="text-align:right">0.7 mg</td><td style="text-align:right"><span class="pill pill-alert">84.2% 低于 RNI</span></td><td style="text-align:right">RNI 1.2/1.4 mg</td><td style="text-align:right">PRI 1.6 mg</td><td>&mdash;</td></tr>
+          <tr><td>烟酸</td><td style="text-align:right">12.9 mg</td><td style="text-align:right"><span class="pill pill-warn">~50% 低于 RNI</span></td><td style="text-align:right">RNI 12/14 mg NE</td><td style="text-align:right">PRI 11-17 mg NE</td><td>成人PRI范围</td></tr>
+          <tr><td>锌</td><td style="text-align:right">6.2 mg</td><td style="text-align:right"><span class="pill pill-warn">低于 RNI</span></td><td style="text-align:right">RNI 7.5/12.5 mg</td><td style="text-align:right">PRI 9.5/7.0 mg</td><td>北方不足率更高</td></tr>
+          <tr><td>硒</td><td style="text-align:right">35 &mu;g</td><td style="text-align:right"><span class="pill pill-warn">低于 RNI</span></td><td style="text-align:right">RNI 60 &mu;g</td><td style="text-align:right">PRI 70/60 &mu;g</td><td>地区差异大</td></tr>
+          <tr><td>钾</td><td style="text-align:right">1,397.6 mg</td><td style="text-align:right"><span class="pill pill-alert">81.9% 低于 AI</span></td><td style="text-align:right">AI 2,000 mg</td><td style="text-align:right">AI 3,500 mg</td><td>钠钾比高达3.0</td></tr>
+          <tr><td>磷</td><td style="text-align:right">890 mg</td><td style="text-align:right"><span class="pill pill-safe">充足</span></td><td style="text-align:right">RNI 720 mg</td><td style="text-align:right">PRI 550 mg</td><td>普遍达标</td></tr>
+          <tr><td>胆碱</td><td style="text-align:right">女240 / 男269 mg</td><td style="text-align:right"><span class="pill pill-alert">极低达标率</span></td><td style="text-align:right">AI 380/450 mg</td><td style="text-align:right">AI 400 mg</td><td>&lt;10%达标</td></tr>
+          <tr><td>膳食纤维</td><td style="text-align:right">~12-14 g</td><td style="text-align:right"><span class="pill pill-warn">普遍低于 AI</span></td><td style="text-align:right">AI 25/30 g</td><td style="text-align:right">AI 25 g</td><td>不足率&gt;70%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top:24px;">
+    <h3>分析小结</h3>
+    <p>表9呈现了中国成人膳食营养素摄入的全景性缺口。钙（96.1%低于EAR）、维生素B2（84.2%低于RNI）、钾（81.9%低于AI）和维生素B1（78.0%低于RNI）的不足率最高，构成了中国膳食的"四大短板"。这些缺口的共同根源在于精制谷物为主食、奶制品消费率低、蔬菜摄入不足的传统膳食模式。磷是唯一普遍达标的营养素，但也带来了钙磷比偏高的潜在问题。EFSA标准在多个维度上高于中国标准（如钙PRI 950 mg vs RNI 800 mg），两套标准的对照使用有助于更精准地定位补充需求。</p>
+  </div>
+</section>
+
+<!-- ====== CHAPTER 5 ====== -->
+<section class="section" id="ch5">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">5</span><div class="line"></div></div>
+    <h2>营养素总摄入汇总：双标准对照</h2>
+    <p class="subtitle">汇总膳食中位数、补充剂贡献及低钠盐贡献，计算最终总摄入量</p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 10 &nbsp;营养素总摄入量双标准对照评估</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:750px;">
+      <table>
+        <thead><tr><th>营养素</th><th style="text-align:right">膳食<br>中位数</th><th style="text-align:right">补充剂</th><th style="text-align:right">低钠盐</th><th style="text-align:right">最终<br>总摄入</th><th style="text-align:center">中国 DRIs 2023</th><th style="text-align:center">EFSA<br>参照</th></tr></thead>
+        <tbody>
+          <tr><td>钙 (mg)</td><td style="text-align:right;color:var(--text-sec)">288</td><td style="text-align:right;color:var(--text-sec)">605</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>893</strong></td><td style="text-align:center"><span class="pill pill-safe">达标（45% UL）</span></td><td style="text-align:center"><span class="pill pill-safe">接近PRI（36% UL）</span></td></tr>
+          <tr><td>镁 (mg)</td><td style="text-align:right;color:var(--text-sec)">229</td><td style="text-align:right;color:var(--text-sec)">241</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>470</strong></td><td style="text-align:center"><span class="pill pill-safe">接近AI</span></td><td style="text-align:center"><span class="pill pill-safe">超过AI</span></td></tr>
+          <tr><td>维生素D3 (&mu;g)</td><td style="text-align:right;color:var(--text-sec)">2</td><td style="text-align:right;color:var(--text-sec)">33.2</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>35.2</strong></td><td style="text-align:center"><span class="pill pill-safe">达标（70% UL）</span></td><td style="text-align:center"><span class="pill pill-safe">安全（35.2% UL）</span></td></tr>
+          <tr><td>维生素A (&mu;g RAE)</td><td style="text-align:right;color:var(--text-sec)">468</td><td style="text-align:right;color:var(--text-sec)">337.5</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>805.5</strong></td><td style="text-align:center"><span class="pill pill-safe">中高剂量安全</span></td><td style="text-align:center"><span class="pill pill-safe">达标</span></td></tr>
+          <tr><td>维生素C (mg)</td><td style="text-align:right;color:var(--text-sec)">51</td><td style="text-align:right;color:var(--text-sec)">229</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>280</strong></td><td style="text-align:center"><span class="pill pill-safe">达标</span></td><td style="text-align:center"><span class="pill pill-safe">远超PRI</span></td></tr>
+          <tr><td>锌 (mg)</td><td style="text-align:right;color:var(--text-sec)">6.2</td><td style="text-align:right;color:var(--text-sec)">11.3</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>17.5</strong></td><td style="text-align:center"><span class="pill pill-safe">达标（44% UL）</span></td><td style="text-align:center"><span class="pill pill-warn">中高（70% UL）</span></td></tr>
+          <tr><td>钾 (mg)</td><td style="text-align:right;color:var(--text-sec)">1,398</td><td style="text-align:right;color:var(--text-sec)">90</td><td style="text-align:right;color:var(--text-sec)">780-1,040</td><td style="text-align:right"><strong>2,268-2,528</strong></td><td style="text-align:center"><span class="pill pill-safe">超过AI</span></td><td style="text-align:center"><span class="pill pill-warn">未达AI（65-73%）</span></td></tr>
+          <tr><td>胆碱 (mg)</td><td style="text-align:right;color:var(--text-sec)">240-269<sup>[18]</sup></td><td style="text-align:right;color:var(--text-sec)">92</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>332-361</strong></td><td style="text-align:center"><span class="pill pill-warn">接近AI（88-95%）</span></td><td style="text-align:center"><span class="pill pill-warn">接近AI（83-90%）</span></td></tr>
+          <tr><td>锰 (mg)</td><td style="text-align:right;color:var(--text-sec)">3.3-3.8</td><td style="text-align:right;color:var(--text-sec)">1.55</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>4.8-5.3</strong></td><td style="text-align:center"><span class="pill pill-safe">达标（44-48% UL）</span></td><td style="text-align:center"><span class="pill pill-warn">草案60-66%</span></td></tr>
+          <tr><td>膳食纤维 (g)</td><td style="text-align:right;color:var(--text-sec)">12-14</td><td style="text-align:right;color:var(--text-sec)">11</td><td style="text-align:right;color:var(--text-sec)">&mdash;</td><td style="text-align:right"><strong>23-25</strong></td><td style="text-align:center"><span class="pill pill-warn">接近AI</span></td><td style="text-align:center"><span class="pill pill-warn">接近AI</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="box-green reveal">
+    <h4>汇总分析</h4>
+    <p>本方案在23项评估营养素中实现了<strong>20项达标或接近达标</strong>，核心架构无显著短板。骨代谢支持链（钙893 mg + D3 35.2 &mu;g + K2 68.3 &mu;g）和中国标准下的B族维生素覆盖是最突出的优势维度。EFSA框架下的关键边界条件：锌17.5 mg占UL 70%需关注铜状态；钾未达EFSA AI（3500 mg），核心获益在于钠钾比改善（从3.0降至约1.3-1.6）；膳食纤维男性略不足，建议增加全谷物5 g以完全达标。</p>
+  </div>
+</section>
+
+<!-- ====== CHAPTER 6 ====== -->
+<section class="section" id="ch6">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">6</span><div class="line"></div></div>
+    <h2>关键维度循证深度分析</h2>
+    <p class="subtitle">以下各节分别就骨代谢支持、认知保护、甲基化循环优化、膳食纤维-肠道代谢轴、钠钾平衡、维生素D、矿物质网络及抗氧化体系等关键维度进行循证分析</p>
+  </div>
+
+  <!-- 6.1 Bone Metabolism -->
+  <div class="reveal">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">1</span>骨代谢支持链：钙-维生素D-K2-硼</h3>
+    <p>中国成人膳食钙中位数仅288 mg，96.1%低于EAR，是全球钙摄入最低的国家之一。钙缺乏的后果呈长期累积性：儿童期影响骨量峰值达成，成年期加速骨流失，老年期显著增加骨质疏松和脆性骨折风险。本方案通过双源钙设计提供总钙 <strong>893 mg</strong>，达中国RNI（800 mg），占中国UL 45%、EFSA UL 36%，安全边际充裕。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">双源钙设计的技术特征</span></div>
+    <div class="tbl-wrapper">
+      <div class="tbl" style="min-width:500px;">
+        <table>
+          <thead><tr><th>钙源</th><th style="text-align:right">剂量</th><th>技术特征</th><th>药理学优势</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MCH-Cal (Bone Maker)</strong></td><td style="text-align:right"><strong>400 mg</strong></td><td>微晶羟磷灰石钙，含天然骨基质、I型胶原蛋白</td><td>与人体骨矿物质同源，胶原框架引导钙定向沉积</td></tr>
+            <tr><td><strong>Albion双甘氨酸钙</strong></td><td style="text-align:right"><strong>180 mg</strong></td><td>甘氨酸螯合，不依赖胃酸解离</td><td>生物利用度受植酸/草酸影响小，胃酸缺乏者仍可吸收</td></tr>
+            <tr><td><strong>辅助钙源</strong></td><td style="text-align:right"><strong>~35 mg</strong></td><td>苹果酸二钙 + 抗坏血酸钙 + 泛酸钙</td><td>有机酸盐形式，缓冲胃肠道刺激</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">Meta分析 | 2024 | n=6,759</span>
+        <h4>腰椎骨密度获益</h4>
+        <p style="font-size:14px;">维生素K补充显著增加腰椎骨密度（<em>p</em> = 0.035），尤其维生素K2亚组效果显著（<em>p</em> = 0.028）。MK-7因半衰期长（约72小时 vs K1仅1-2小时），可持续存在于循环中发挥骨代谢调节作用<sup>[1]</sup>。</p>
+      </div>
+      <div class="box-green">
+        <span class="box-tag">Meta分析 | 2024 | n=6,759</span>
+        <h4>骨钙素羧化优化</h4>
+        <p style="font-size:14px;">维生素K显著增加羧化骨钙素cOC（WMD = 2.87 ng/ml, <em>p</em> = 0.004），显著降低未羧化骨钙素ucOC（WMD = -2.32 ng/ml, <em>p</em> &lt; 0.001）<sup>[1]</sup>。</p>
+      </div>
+    </div>
+
+        <div class="box-blue" style="margin:16px 0;">
+      <h4>D3–K2–钙–硼四环节骨代谢支持链</h4>
+      <div style="font-size:14px;">
+        <p><strong>① 吸收启动</strong>：D3 35.2 &mu;g经25-羟化和1&alpha;-羟化转化为骨化三醇，通过核VDR上调小肠TRPV6钙通道表达，将主动转运效率提升约3&ndash;4倍<sup>[2]</sup>。</p>
+        <p><strong>② 骨钙素合成</strong>：骨化三醇作用于成骨细胞核VDR-RXR异源二聚体，促进骨钙素（OC）基因转录与成骨细胞成熟<sup>[2]</sup>。</p>
+        <p><strong>③ K2羧化导向</strong>：K2-MK7 68.3 &mu;g作为&gamma;-谷氨酰羧化酶辅因子，催化骨钙素Glu&rarr;Gla残基转化，激活钙螯合能力；同步激活基质Gla蛋白（MGP，含5Ca&sup2;&sup2;+3PO&sup4;&sup3;螯合基团），与cOC协同将循环钙定向转运至骨羟基磷灰石晶格<sup>[1][2]</sup>。</p>
+        <p><strong>④ 沉积与调节</strong>：cOC嵌入骨基质桥联羟基磷灰石与骨桥蛋白；MCH-Cal提供同源骨晶格+I型胶原蛋白框架；硼通过17&beta;-雌二醇调节骨转换平衡<sup>[2]</sup>。</p>
+      </div>
+    </div>
+
+    <p>Aaseth等2024年<em>Nutrients</em>综述总结：D3充足背景下，K2可进一步增加BMD&mdash;&mdash;八项RCT Meta分析（n=971）证实K2联合D3较单独D3显著增加全身BMD<sup>[2]</sup>。D3负责&ldquo;打开钙流入&rdquo;，K2负责&ldquo;指引钙去向&rdquo;，二者构成钙从肠腔到骨基质的完整链条。本方案D3 + K2-MK7 + 钙 + MCH-Cal四元组合覆盖该链条全部环节。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">维生素D3的癌症死亡率额外获益</span></div>
+
+    <p>Kuznia等2023年系统评价与IPD Meta分析（14项RCT, n=104,727）按给药方式分层显示显著异质性：10项每日给药试验合并降低癌症死亡率<strong>12%</strong>（RR 0.88, 95%CI 0.78-0.98, <em>p</em> = 0.019），而4项大剂量间歇补充（bolus）试验未见获益（RR 1.07, 95%CI 0.91-1.24），交互作用检验显著（<em>p</em><sub>interaction</sub> = 0.042）<sup>[13]</sup>。IPD事后分析提示&ge;70岁成人（RR 0.83）及癌症诊断前即开始补充者（RR 0.87）获益更为突出。本方案D3 35.2 &mu;g（1,408 IU/天）采用每日持续给药策略，与上述显示获益的给药模式一致。</p>
+
+    <div class="card" style="margin:20px 0;max-width:600px;">
+      <div class="card-inner">
+        <div class="dose-bar"><span class="label">钙</span><div class="track"><div class="fill dose-fill" data-width="45"></div></div><span class="val">893 mg</span></div>
+        <div class="dose-bar"><span class="label">维生素D</span><div class="track"><div class="fill fill-gold dose-fill" data-width="70"></div></div><span class="val">35.2 &mu;g</span></div>
+        <div class="dose-bar"><span class="label">维生素K</span><div class="track"><div class="fill dose-fill" data-width="26"></div></div><span class="val">154 &mu;g</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.2 Cognitive Protection -->
+  <div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">2</span>认知保护：胆碱多靶点协同策略</h3>
+    <p>中国成人膳食胆碱中位数女性~240 mg、男性~269 mg，<strong>达标率不足10%</strong>。Framingham队列随访16.1年显示低胆碱摄入（&le;219 mg/天）与AD风险显著相关<sup>[3][4]</sup>；中国NCDFaC研究证实胆碱Q2较Q1 MCI风险降低37%（OR 0.63）<sup>[5]</sup>。</p>
+
+    <p>本方案提供 <strong>92 mg外源性胆碱</strong>，叠加膳食后总摄入达332-361 mg，处于痴呆低风险窗口（320-360 mg/天）。Optimal Focus含<strong>胞磷胆碱钠400 mg</strong>（Xerenoos&reg;），接近临床认知干预活性剂量区间（500-1000 mg/天），其药理作用远超胆碱供给本身。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">胞磷胆碱400 mg：临床证据与安全性档案</span></div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">Meta分析 | Bonvicini 2023 | <em>Nutrients</em></span>
+        <h4>胞磷胆碱认知获益</h4>
+        <p style="font-size:14px;">7项研究Meta分析SMD 0.56-1.57，<strong>所有研究均报告正向效应</strong>，但质量偏低需谨慎解读<sup>[20]</sup>。2,817例监测显示95%无不良反应，4000 mg/天仍耐受良好。</p>
+      </div>
+      <div class="box-blue">
+        <span class="box-tag">RCT | Alvarez-Sab&iacute;n 2016 | <em>Int J Mol Sci</em></span>
+        <h4>卒中后认知保护与增效定位</h4>
+        <p style="font-size:14px;">首次缺血性卒中者认知下降速率低于对照组，获益倾向于<strong>早期干预</strong>。联合AChEI治疗MMSE优于单药，支持add-on定位<sup>[21][22]</sup>。</p>
+      </div>
+    </div>
+
+    <p>Sagaro与Amenta 2025年头对头Meta分析（3项RCT, n=358）显示Alpha-GPC在SCAG整体评分上优于胞磷胆碱（WMD -3.92, 95%CI -7.41 to -0.42），但记忆测试无显著差异<sup>[6]</sup>。需注意这些试验中Alpha-GPC为独立高剂量治疗，本配方中Alpha-GPC仅作为<strong>BBB穿透增效组件</strong>，与胞磷胆碱400 mg互补而非竞争<sup>[23]</sup>。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">六靶点协同机制</span></div>
+    <p>本方案认知架构为<strong>胞磷胆碱400 mg主导 + 专利混合物辅助</strong>，覆盖胆碱能传递、突触膜修复、AChE抑制及神经炎症调节：</p>
+
+    <div class="tbl-wrapper" style="margin:16px 0;">
+      <div class="tbl" style="min-width:600px;">
+        <table>
+          <thead><tr><th>靶点</th><th style="text-align:right">成分</th><th>核心机制</th></tr></thead>
+          <tbody>
+            <tr><td><strong>PC前体（主导）</strong></td><td style="text-align:right">胞磷胆碱钠 400 mg</td><td>CDP-胆碱进入Kennedy循环，膜磷脂从头合成<sup>[24]</sup></td></tr>
+            <tr><td><strong>ACh合成增效</strong></td><td style="text-align:right">Alpha-GPC</td><td>BBB穿透率&gt;40%，快速补充胆碱底物</td></tr>
+            <tr><td><strong>突触膜底物</strong></td><td style="text-align:right">尿苷UMP + AvailOM DHA</td><td>CTP激活Kennedy循环限速步骤；DHA维持膜流动性<sup>[24][27]</sup></td></tr>
+            <tr><td><strong>AChE抑制</strong></td><td style="text-align:right">石杉碱甲 + BacoMind</td><td>可逆性AChE抑制，双重胆碱能信号增强<sup>[26][28]</sup></td></tr>
+            <tr><td><strong>神经保护</strong></td><td style="text-align:right">胞磷胆碱 + 西洋参</td><td>PLA&sub2;抑制、GSH刺激、HPA轴缓冲<sup>[25]</sup></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">基础机制 | Wurtman RJ | <em>Front Synaptic Neurosci</em></span>
+        <h4>三底物协同假说</h4>
+        <p style="font-size:14px;">尿苷（&rarr;CTP）、DHA和胆碱是Kennedy循环三大必需前体。胞磷胆碱处于<strong>核心枢纽</strong>，三种底物同时供给产生超加性效应，增加树突棘密度。本方案400 mg胞磷胆碱 + UMP + DHA完整覆盖三大输入端<sup>[24]</sup>。</p>
+      </div>
+      <div class="box-blue">
+        <span class="box-tag">综述 | Adibhatla &amp; Hatcher 2002 | <em>J Neurochem</em></span>
+        <h4>胞磷胆碱的多维神经保护</h4>
+        <p style="font-size:14px;">胞磷胆碱神经保护远超胆碱供给：抑制PLA&sub2;减少膜降解、保护心磷脂维持线粒体完整性、刺激GSH合成增强抗氧化、恢复Na&sup2;/K&sup2;-ATPase活性，在缺血性脑损伤中产生显著保护<sup>[25]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-amber">
+        <span class="box-tag">RCT | Roodenrys 2002 | <em>Neuropsychopharmacology</em></span>
+        <h4>BacoMind双重AChE抑制策略</h4>
+        <p style="font-size:14px;">54名65岁以上老年人12周RCT：Bacopa 300 mg/天组AVLT延迟回忆和Stroop反应时显著优于安慰剂，血浆AChE活性降低，与石杉碱甲形成<strong>天然提取物+纯化生物碱双重AChE抑制</strong><sup>[26]</sup>。</p>
+      </div>
+      <div class="box-green">
+        <span class="box-tag">药代动力学 | Manusama 2021 | <em>PLEFA</em></span>
+        <h4>AvailOM DHA 5倍吸收效率</h4>
+        <p style="font-size:14px;">AvailOM以L-赖氨酸固体复合DHA/EPA，空腹AUC较乙酯型鱼油<strong>提升约5倍</strong>，规避液态氧化风险，为胞磷胆碱膜修复提供高效DHA底物<sup>[27]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">系统评价 | Yang 2013</span>
+        <h4>石杉碱甲的多靶点药理特性</h4>
+        <p style="font-size:14px;">石杉碱甲除可逆性AChE抑制外，还具有抗A&beta;氧化损伤、上调NGF、NMDA受体拮抗、促进非淀粉样源性APP加工等非胆碱能效应，具有潜在<strong>疾病修饰价值</strong><sup>[28]</sup>。</p>
+      </div>
+      <div class="box-amber">
+        <span class="box-tag">RCT | Jeon 2024 | <em>BMC Geriatrics</em> | n=96</span>
+        <h4>Alpha-GPC高剂量单药参考</h4>
+        <p style="font-size:14px;">96名aMCI患者6个月RCT：Alpha-GPC 1200 mg/天显著改善ADAS-Cog和MMSE（<em>p</em>&lt;0.001），本配方中Alpha-GPC定位为<strong>胞磷胆碱通路的快速启动辅助</strong>，而非独立干预<sup>[7]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="box-amber" style="margin:16px 0;">
+      <h4>使用建议与安全性考量</h4>
+      <p style="font-size:14px;"><strong>本配方以胞磷胆碱400 mg为认知核心</strong>，处于临床研究活性区间，安全性档案充分。石杉碱甲与胆碱前体联用时，极少数敏感个体可能出现胆碱能过剩轻微不适（头痛、胃肠不适），可考虑间歇服用（4周停1周）。长期使用者建议每12个月评估认知功能基线。本配方定位应为<strong>认知维持与早期保护</strong>，对已确诊痴呆的独立治疗效果证据有限。</p>
+    </div>
+  </div>
+
+  <!-- 6.3 Methylation -->
+  <div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">3</span>B族维生素与甲基化循环优化</h3>
+    <p>中国膳食维生素B1、B2不足率超过80%，根源在于精制谷物为主食（B1主要损失于碾磨过程）和动物性食物摄入不足。MTHFR C677T和A1298C多态性在中国人群频率约 <strong>20-30%</strong>。</p>
+
+    <p><strong>全活性B族设计的代谢优势</strong>：合成叶酸（folic acid）需经DHFR多步还原才能转化为5-MTHF，人体DHFR活性低且易被饱和，导致未代谢叶酸（UMFA）在血液中积累<sup>[29]</sup>。本方案采用<strong>Quatrefolic 6S-5-甲基叶酸</strong>，直接绕过DHFR限速步骤和MTHFR突变障碍；<strong>甲基钴胺素</strong>取代氰钴胺素，无需脱氰即可直接参与MTR介导的Hcy再甲基化（Paul &amp; Brady 2017）；<strong>PLP</strong>作为B6天然辅酶形式，直接供应CBS催化的转硫化旁路，较吡哆醇减少一步肝脏磷酸化依赖。三者均以"成品"形式进入甲基化循环，对MTHFR突变携带者具有明确的代谢适配性。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-blue">
+        <span class="box-tag">人群研究 | Midttun <em>et al.</em> 2007 | <em>Am J Clin Nutr</em> | n=10,601</span>
+        <h4>PLP：MTHFR突变者的关键代偿因子</h4>
+        <p style="font-size:14px;">Midttun等对10,601名健康成人的血浆分析显示，PLP是与总同型半胱氨酸（tHcy）和胱硫醚反比关系<strong>最强且最一致</strong>的B6形式，且PLP-tHcy关联在MTHFR 677TT基因型者中最为显著。这提示：当再甲基化通路因突变受限时，PLP充足的<strong>转硫化旁路</strong>成为降低Hcy的关键代偿机制——补充PLP活性形式对MTHFR突变携带者具有直接且可量化的代谢优势<sup>[31]</sup>。</p>
+      </div>
+      <div class="box-green">
+        <span class="box-tag">综述 | Scaglione &amp; Panzavolta 2014 | <em>Xenobiotica</em></span>
+        <h4>5-MTHF vs 合成叶酸：绕过双重障碍</h4>
+        <p style="font-size:14px;">合成叶酸的DHFR转化在人体中效率低下，高剂量补充时UMFA可在血液中持续检出。5-MTHF（Quatrefolic）作为人体可直接利用的还原型叶酸，无需酶促转化即可进入甲基化循环，同时规避了MTHFR C677T突变导致的5,10-亚甲基-THF还原步骤的瓶颈——对该突变携带者（中国人群频率20-30%）具有不可替代的代谢适配价值<sup>[29]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="tbl-wrapper">
+      <div class="tbl" style="min-width:600px;">
+        <table>
+          <thead><tr><th>代谢步骤</th><th>关键酶</th><th>所需辅因子</th><th>本方案提供</th><th>突变影响</th></tr></thead>
+          <tbody>
+            <tr><td><strong>5,10-亚甲基-THF还原</strong></td><td>MTHFR</td><td>核黄素 (FAD)</td><td><strong>B2 5.0 mg (RFP活性)</strong></td><td>C677T降低酶活30-70%</td></tr>
+            <tr><td><strong>5-甲基-THF利用</strong></td><td>MS</td><td>甲基B12</td><td><strong>B12 125 &mu;g (甲基钴胺素)</strong></td><td>A1298C影响较小</td></tr>
+            <tr><td><strong>Hcy再甲基化</strong></td><td>MTR/MTRR</td><td>5-MTHF</td><td><strong>叶酸 425 &mu;g (Quatrefolic)</strong></td><td>双重突变显著升高Hcy</td></tr>
+            <tr><td><strong>转硫化旁路</strong></td><td>CBS</td><td>PLP (B6)</td><td><strong>B6 5.0 mg (PLP活性)</strong></td><td>B6充足可分流Hcy</td></tr>
+            <tr><td><strong>BHMT旁路</strong></td><td>BHMT</td><td>TMG (甜菜碱)</td><td><strong>TMG 37.5 mg</strong></td><td>叶酸缺乏时的代偿途径</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-blue">
+        <h4>Hcy与冠心病：因果关系的重新审视</h4>
+        <p style="font-size:14px;">Clarke等纳入86项MTHFR病例对照研究（~107,000例）：TT基因型CHD超额风险仅2%（OR 1.02, 95%CI 0.98-1.05），提示Hcy升高可能是CHD的<strong>标志物而非独立致病因素</strong><sup>[8]</sup>。尽管如此，B族维生素对MTHFR携带者的代谢优化价值依然存在，建议长期使用者每12个月检测血清Hcy水平。</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- 6.4 Dietary Fiber -->
+  <div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">4</span>膳食纤维与肠道-代谢轴调节</h3>
+    <p>膳食纤维摄入与死亡率之间的剂量-反应关系是营养流行病学中证据最充分的关联之一。2024年发表于<em>Clinical Nutrition</em>（ESPEN官方期刊）的最新系统评价和Meta分析提供了当前最大规模的定量综合。</p>
+
+    <div class="box-green">
+      <span class="box-tag">系统评价与Meta分析 | 2024 | n=3,512,828</span>
+      <h4>Ramezani等：64项前瞻性队列研究的综合</h4>
+      <p style="font-size:14px;">Ramezani等检索截至2022年10月的PubMed、SCOPUS和Web of Science数据库，纳入<strong>64项符合条件的前瞻性队列研究</strong>，总样本量达<strong>3,512,828例</strong><sup>[9]</sup>。</p>
+    </div>
+
+    <div class="ev-grid cols-3" style="margin:20px 0;">
+      <div class="ev-card"><span class="num">23</span><span class="suffix">%</span><div class="label">全因死亡率降低</div><div class="sub">HR 0.77 (95%CI 0.73-0.82)</div></div>
+      <div class="ev-card"><span class="num">26</span><span class="suffix">%</span><div class="label">CVD死亡率降低</div><div class="sub">HR 0.74 (95%CI 0.71-0.77)</div></div>
+      <div class="ev-card"><span class="num">22</span><span class="suffix">%</span><div class="label">癌症死亡率降低</div><div class="sub">HR 0.78 (95%CI 0.68-0.87)</div></div>
+    </div>
+
+    <div class="box-blue">
+      <h4>配方设计启示</h4>
+      <p style="font-size:14px;">本方案三源混合纤维包含<strong>不溶性抗性淀粉（Solnul 3.5 g）+ 可溶性纤维（Sunfiber 7 g + 阿拉伯树胶 2.8 g）</strong>，在溶解性维度实现与不溶性纤维更强保护效应的适配，与本方案低钠盐策略形成饮食-补充剂协同防线<sup>[9][11]</sup>。</p>
+    </div>
+
+    <h4 style="margin-top:28px;">可溶性膳食纤维补充剂对血脂谱的直接影响：181项RCT的剂量反应证据</h4>
+    <p>膳食来源纤维的保护效应已有充分证据（Ramezani 2024, 6.4.1），但本方案的核心关切在于<strong>纤维补充剂本身</strong>能否独立产生临床可测量的获益。2023年发表于<em>Advances in Nutrition</em>（ASN官方期刊）的一项大规模RCT系统评价和剂量反应荟萃分析为此提供了高等级的干预性证据。</p>
+
+    <div class="box-green">
+      <span class="box-tag">系统评价与剂量反应Meta分析 | 2023 | 181项RCT, n=14,505</span>
+      <h4>Gavami等：可溶性纤维补充剂的血脂调节效应</h4>
+      <p style="font-size:14px;">Gavami等检索PubMed、Scopus和ISI Web of Science截至2021年11月的文献，纳入<strong>181项随机对照试验</strong>、220个治疗组、共14,505名参与者（7,348例治疗组 + 7,157例对照组），系统评估可溶性膳食纤维补充剂对成人血脂参数的影响。随机效应模型分析显示，补充可溶性纤维后以下指标均显著降低<sup>[10]</sup>：</p>
+    </div>
+
+    <div class="ev-grid cols-3" style="margin:20px 0;">
+      <div class="ev-card"><span class="num">8</span><span class="suffix">.28</span><div class="label">LDL-C降低 (mg/dL)</div><div class="sub">95%CI -11.38, -5.18</div></div>
+      <div class="ev-card"><span class="num">10</span><span class="suffix">.82</span><div class="label">总胆固醇降低 (mg/dL)</div><div class="sub">95%CI -12.98, -8.67</div></div>
+      <div class="ev-card"><span class="num">44</span><span class="suffix">.99</span><div class="label">Apo-B降低 (mg/L)</div><div class="sub">95%CI -62.87, -27.12</div></div>
+    </div>
+
+    <div class="box-blue">
+      <h4>剂量反应关系与本方案对应</h4>
+      <p style="font-size:14px;">剂量反应分析显示，可溶性纤维<strong>每增加5 g</strong>：LDL-C降低 <strong>5.57 mg/dL</strong>。本方案提供可溶性纤维9.8 g，预期LDL-C降低约 <strong>10.9 mg/dL</strong>，Apo-B降低44.99 mg/L，提示纤维补充剂通过减少LDL颗粒数量降低心血管风险<sup>[10]</sup>。</p>
+    </div>
+
+    <p>上述两项研究从死亡率终点（Ramezani 2024）和补充剂直接干预的血脂改善中间终点（Gavami 2023）两个层面构建了膳食纤维获益的完整证据链——前者确立膳食纤维的保护性关联，后者证明可溶性纤维补充剂本身可产生临床可量化的血脂调节效果。总摄入23-25 g/天叠加本方案11 g补充剂后，进入两项Meta分析中均观察到显著保护效应的摄入量区间。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">三源混合纤维的生理互补设计</span></div>
+    <div class="tbl-wrapper">
+      <div class="tbl" style="min-width:600px;">
+        <table>
+          <thead><tr><th>纤维来源</th><th style="text-align:right">剂量</th><th style="text-align:center">溶解性</th><th>主要发酵段</th><th>核心生理效应</th><th>耐受性</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Sunfiber（部分水解瓜儿胶）</strong></td><td style="text-align:right"><strong>7 g</strong></td><td style="text-align:center">高可溶性</td><td>全结肠</td><td>温和增加粪便体积、软化质地、调节IBS症状</td><td>低产气，高耐受</td></tr>
+            <tr><td><strong>Solnul（抗性马铃薯淀粉）</strong></td><td style="text-align:right"><strong>3.5 g</strong></td><td style="text-align:center">不溶性</td><td>远端结肠</td><td>优先发酵底物，促进丁酸生成</td><td>中等产气</td></tr>
+            <tr><td><strong>阿拉伯树胶</strong></td><td style="text-align:right"><strong>2.8 g</strong></td><td style="text-align:center">高可溶性</td><td>近端结肠</td><td>延缓胃排空、支持餐后血糖稳态</td><td>高耐受</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+    <!-- 6.5 Sodium-Potassium — Optimized -->
+  <div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">5</span>钠钾平衡与心血管保护</h3>
+
+    <p>中国成人膳食钾摄入中位数仅 <strong>1,398 mg/天</strong>，81.9%低于AI（2,000 mg），而钠摄入量普遍超标，钠钾比高达 <strong>3.0:1</strong>（理想比值为约1.0:1）。这一"高钠低钾"的膳食格局是中国高血压、脑卒中和心血管疾病负担的核心饮食驱动因素之一。与西方人群不同，中国居民钾缺口的主要来源并非单纯的水果蔬菜摄入不足，而是烹饪用盐在总钠摄入中占比过高（约60-70%），使得通过换盐策略同时实现"减钠"和"增钾"具有独特的公共卫生价值。</p>
+
+    <p>本方案通过低钠盐（含约25%氯化钾）每日6-8 g的烹饪替代，在减钠约30%的同时提供钾 <strong>780-1,040 mg</strong>。叠加膳食（1,398 mg）和补充剂（90 mg）后，总钾摄入达 <strong>2,268-2,528 mg</strong>，超过中国AI（2,000 mg），钠钾比从3.0优化至约 <strong>1.3-1.6</strong>——进入多项前瞻性队列研究观察到心血管保护效应的区间。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">RCT | SSaSS 2024 | n=20,995</span>
+        <h4>低钠盐降低急性冠脉综合征风险20%</h4>
+        <p style="font-size:14px;">SSaSS（Salt Substitute and Stroke Study）是迄今最大规模的低钠盐干预RCT，纳入中国600个村庄、20,995名有卒中史或高血压的成年人，中位随访4.74年。2024年<em>Hypertension</em>发表的心脏结局后续分析显示：与常规食盐相比，富钾盐（含25% KCl）组急性冠脉综合征（ACS）风险降低 <strong>20%</strong>（RR 0.80, 95%CI 0.71-0.89），心律失常风险降低 <strong>41%</strong>（RR 0.59, 95%CI 0.37-0.92）。该效应独立于血压降低——提示钠钾比改善本身具有直接的心脏电生理和血管保护作用<sup>[11]</sup>。</p>
+      </div>
+      <div class="box-blue">
+        <span class="box-tag">队列 | Kwon YJ 2022 | n=143,050</span>
+        <h4>钾摄入与死亡风险的L型剂量关系</h4>
+        <p style="font-size:14px;">韩国国民健康与营养调查队列纳入143,050名成人、随访10.1年：钾摄入与全因死亡率（Q5 vs Q1: HR 0.79, 95%CI 0.73-0.86）和CVD死亡率（HR 0.68, 95%CI 0.58-0.79）均呈显著负相关。关键发现：保护效应呈 <strong>L型曲线</strong>——从中位数水平（~2,000 mg/天）继续增加钾摄入仍可获得额外获益，直至约3,500 mg/天趋于平台。这意味着即便无法达到EFSA AI（3,500 mg），从1,400 mg提升至2,300 mg仍然是高价值干预窗口<sup>[12]</sup>。</p>
+      </div>
+    </div>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">低钠盐策略的获益-成本优势</span></div>
+
+    <p>从人群干预的"获益-成本比"视角看，低钠盐策略具有独特优势。SSaSS试验中的低钠盐为普通食盐替代物，不改变饮食习惯、无需额外行为改变成本，即可同时实现两条独立保护通路：<strong>① 减钠降压通路</strong>——氯化钠减少约30%，直接降低细胞外液容量和动脉壁钠负荷；<strong>② 增钾保护通路</strong>——钾离子通过内皮钠通道（ENaC）竞争性抑制钠重吸收、促进血管舒张，并直接稳定心肌细胞膜电位降低心律失常风险。两种效应互补而非重叠，使得低钠盐的净获益显著高于单纯减钠或单纯补钾。</p>
+
+    <div class="ev-grid cols-3" style="margin:20px 0;">
+      <div class="ev-card"><span class="num">1.3-1.6</span><span class="suffix"> : 1</span><div class="label">优化后钠钾比</div><div class="sub">从3.0显著改善</div></div>
+      <div class="ev-card"><span class="num">30</span><span class="suffix">%</span><div class="label">钠摄入减少</div><div class="sub">减盐不减咸</div></div>
+      <div class="ev-card"><span class="num">2,268</span><span class="suffix">-2,528</span><div class="label">总钾摄入 (mg)</div><div class="sub">超过中国AI (2,000mg)</div></div>
+    </div>
+
+    <div class="box-amber" style="margin:16px 0;">
+      <h4>使用提示</h4>
+      <p style="font-size:14px;">低钠盐（含25%氯化钾）每日6-8 g为烹饪替代量，用于炒菜、煲汤等日常烹饪，无需改变用盐习惯。肾功能正常者在此剂量下血钾升高风险极低。肾功能不全者（eGFR &lt; 30 mL/min/1.73m²）禁用富钾盐；CKD 3期以上需在医生指导下使用并定期监测血钾。</p>
+    </div>
+  </div>
+
+
+    <!-- 6.6 Mineral Network (was 6.7) -->
+<div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">6</span>矿物质网络：镁、锌、硒、碘</h3>
+    <p>2016年<em>BMC Medicine</em>剂量反应Meta分析（40项前瞻性队列, n&gt;100万）揭示镁的全因保护效应<sup>[14]</sup>：</p>
+
+    <div class="ev-grid cols-4" style="margin:20px 0;">
+      <div class="ev-card"><span class="num">7</span><span class="suffix">%</span><div class="label">卒中风险降低</div><div class="sub">每100mg增量</div></div>
+      <div class="ev-card"><span class="num">22</span><span class="suffix">%</span><div class="label">心力衰竭风险降低</div><div class="sub">每100mg增量</div></div>
+      <div class="ev-card"><span class="num">19</span><span class="suffix">%</span><div class="label">2型糖尿病风险降低</div><div class="sub">每100mg增量</div></div>
+      <div class="ev-card"><span class="num">10</span><span class="suffix">%</span><div class="label">全因死亡风险降低</div><div class="sub">每100mg增量</div></div>
+    </div>
+
+    <p>镁的保护机制涉及：改善血管内皮功能、降低收缩压、增强胰岛素敏感性、减少全身性低度炎症。钙与镁在肠道吸收、骨矿化和炎症调节中存在复杂的拮抗与协同，钙镁比的平衡比单一矿物质绝对摄入量更为关键。</p>
+
+    <h4 style="margin-top:28px;">钙镁比交互效应</h4>
+    <p>Dai等两项上海前瞻性队列（SWHS 74,942女性 + SMHS 61,500男性）首次揭示钙镁比对死亡风险的修饰效应，该人群中位数约<strong>1.7</strong>（美国~3.0）<sup>[15]</sup>：</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">前瞻性队列 | Dai 2013 | <em>BMJ Open</em> | n=136,442</span>
+               <h4>钙镁比&gt;1.7的保护效应</h4>
+        <p style="font-size:14px;">在钙镁比<strong>&gt;1.7</strong>的男性中，钙和镁摄入增加均与全因死亡率降低显著相关，冠心病死亡风险亦显著下降；钙摄入增加还与癌症死亡风险降低相关。在钙镁比&le;1.7的女性中，镁摄入&ge;320 mg/天反而与总死亡率、CVD死亡率和结直肠癌死亡率增加相关。这提示钙镁比存在一个<strong>临界阈值</strong>，低于该阈值时镁的额外补充可能因钙相对不足而产生不利效应。</p>
+      </div>
+      <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 24px rgba(0,0,0,0.04);border:1px solid var(--border);text-align:center;">
+        <span style="font-family:var(--font-serif);font-size:32px;font-weight:700;color:var(--teal);display:block;">1.9 : 1</span>
+        <span style="font-size:13px;color:var(--text-sec);display:block;">钙镁比（893/470 mg）</span>
+        <span style="font-size:11px;color:var(--teal);display:block;margin-top:8px;">上海队列保护区间&gt;1.7</span>
+      </div>
+    </div>
+
+    <p>本方案总钙摄入<strong>893 mg</strong>、总镁摄入<strong>470 mg</strong>，钙镁比约<strong>1.9 : 1</strong>，恰处于上海研究观察到保护效应的区间（&gt;1.7）。该比例显著优于美国人群的典型比值（~3.0），也高于中国膳食中位数（~1.7），在"钙相对充足、镁充分补充"的窗口内实现了双矿物质的协同获益。这一钙镁比设计使得本方案在进入镁补充的获益区间的同时，避免了钙相对不足时高镁摄入可能带来的潜在风险。</p>
+
+    <h4 style="margin-top:28px;">硒、锌、碘：功能性三角</h4>
+    <p>三者在氧化还原稳态、免疫调节和内分泌轴中扮演催化角色：</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">硒 60 &mu;g</span></div>
+
+    <p>人体基因组编码 <strong>25种硒蛋白</strong>，GPx1-4和TrxR1-3构成硒依赖抗氧化防御的核心层<sup>[37]</sup>。硒以硒半胱氨酸（Sec）形式嵌入这些酶的活性中心，直接参与H₂O₂和脂质过氧化物的还原清除。GPx4尤为关键——作为细胞内唯一的磷脂氢过氧化物还原酶，通过抑制脂质过氧化链式反应阻止铁死亡（ferroptosis）。TrxR系统则维持硫氧还蛋白还原状态，为DNA合成和氧化还原信号转导提供还原当量。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">Cochrane | Vinceti 2018 | 88项RCT, n=27,232</span>
+        <h4>硒补充与癌症：无显著保护</h4>
+        <p style="font-size:14px;">未发现硒补充降低癌症发病率（RR 0.90, 95%CI 0.70-1.17），终结&ldquo;高硒防癌&rdquo;假说<sup>[16]</sup>。</p>
+      </div>
+      <div class="box-blue">
+        <span class="box-tag">Cochrane | Rees 2013 | n=1,906</span>
+        <h4>硒与甲状腺功能</h4>
+        <p style="font-size:14px;">200 &mu;g/天硒补充显著降低TPOAb（-152.44 IU/mL, <em>p</em>=0.004），但对TSH/T3/T4无显著影响<sup>[38]</sup>。</p>
+      </div>
+    </div>
+
+    <p>本方案硒 <strong>60 &mu;g</strong>，达RNI，占UL 15%，精准达标<sup>[16]</sup>。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">锌 17.5 mg：锌-铜平衡</span></div>
+
+    <p>锌 <strong>17.5 mg</strong>（膳食~6.2 mg + 补充剂11.3 mg），占中国UL 44%、EFSA UL 70%。锌是300余种金属酶的催化组分。锌与铜在肠道共享二价金属转运体（DMT1）进入肠上皮细胞，并在细胞内与金属硫蛋白（MT）竞争性结合——MT对Cu&sup2;的亲和力显著高于Zn&sup2;，高剂量锌诱导MT过表达时Cu&sup2;优先被螯合，随肠上皮脱落排出，导致铜净吸收下降。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-amber">
+        <span class="box-tag">RCT | Yadrick 1989 | <em>Am J Clin Nutr</em></span>
+        <h4>50 mg/d锌对铜状态的抑制</h4>
+        <p style="font-size:14px;">21名女性10周RCT：50 mg锌使红细胞Cu/Zn SOD活性显著下降（&minus;7%, <em>p</em>=0.05），证实<strong>约RDA 3倍剂量即可产生铜代谢抑制</strong><sup>[39]</sup>。</p>
+      </div>
+      <div class="box-red">
+        <span class="box-tag">病例系列 | Fischer 1984; Wazir 2023</span>
+        <h4>高剂量锌的临床后果</h4>
+        <p style="font-size:14px;">150 mg/天&ge;1年导致低铜血症、贫血和神经病变；50-80 mg/天11个月可致全血细胞减少，停用锌后4-6周恢复<sup>[38]</sup>。</p>
+      </div>
+    </div>
+
+    <p style="font-size:14px;">本方案锌17.5 mg远低于50 mg/d铜抑制阈值，占EFSA UL 70%。长期使用者建议每12个月检测血清铜/锌比值<sup>[39][40][41]</sup>。</p>
+
+    <div style="margin:16px 0 10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">碘 157.5 &mu;g</span></div>
+
+    <p>碘是甲状腺激素（TH）合成的唯一必需微量元素。本方案碘 <strong>157.5 &mu;g</strong>/天（膳食~120 &mu;g + 补充剂37.5 &mu;g），达WHO推荐量（150 &mu;g）的105%，仅占UL（600 &mu;g）的26%<sup>[42]</sup>。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-green">
+        <span class="box-tag">WHO | Zimmermann 2009 | <em>Lancet</em></span>
+        <h4>碘缺乏的全球负担</h4>
+        <p style="font-size:14px;">碘缺乏是可预防性智力发育迟滞的首要原因，碘盐普及使缺乏国家从110个（1993）降至47个（2007）<sup>[42]</sup>。</p>
+      </div>
+      <div class="box-blue">
+        <span class="box-tag">机制 | Pearce 2021 | <em>Endocr Rev</em></span>
+        <h4>甲状腺激素合成</h4>
+        <p style="font-size:14px;">TPO催化：NIS泵入I&minus;&rarr;氧化&rarr;碘化Tg生成MIT/DIT&rarr;偶联生成T3/T4&rarr;释放。DIO1-3催化T4&rarr;T3转化<sup>[43]</sup>。</p>
+      </div>
+    </div>
+
+    <p style="font-size:14px;"><strong>高碘地区</strong>：水碘&gt;100 &mu;g/L居民可能超UL诱发IIH/Wolff-Chaikoff效应，必要时改用无碘盐。本方案仅含碘37.5 &mu;g。</p>
+  </div>
+
+  <!-- 6.7 Antioxidant -->
+  <div class="reveal" style="margin-top:48px;">
+    <h3><span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">7</span>抗氧化体系：低剂量维生素E与维生素C协同再生</h3>
+
+    <p>本方案提供 <strong>D-alpha-生育酚 7.5 mg</strong>（~11 IU），天然RRR-&alpha;-生育酚为&alpha;-TTP高亲和力底物，生物活性约为合成dl-型的 <strong>1.36倍</strong>。合成dl-型含8种异构体，仅4种（2R型）可被&alpha;-TTP识别入循环，其余经CYP4F2代谢排出<sup>[36]</sup>。</p>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-red">
+        <span class="box-tag">RCT | SELECT 2011 | <em>JAMA</em></span>
+        <h4>前列腺癌风险+17%</h4>
+        <p style="font-size:14px;">35,533名男性，400 IU/天前列腺癌风险增加 <strong>17%</strong>（HR 1.17, <em>p</em> = 0.008），为本方案<strong>36倍</strong><sup>[33]</sup>。</p>
+      </div>
+      <div class="box-red">
+        <span class="box-tag">RCT | HOPE-TOO 2005 | <em>JAMA</em></span>
+        <h4>心衰与住院风险</h4>
+        <p style="font-size:14px;">400 IU/天：心衰风险+13%（<em>p</em> = 0.03），住院+21%（<em>p</em> = 0.045）<sup>[32]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="ev-grid cols-2" style="margin:20px 0;">
+      <div class="box-amber">
+        <span class="box-tag">Cochrane | Bjelakovic 2012 | 78项RCT</span>
+        <h4>维生素E增加死亡率</h4>
+        <p style="font-size:14px;">低偏倚风险试验中维生素E单药RR 1.03（<em>p</em> = 0.04），&ldquo;&beta;-胡萝卜素和维生素E似乎增加死亡率&rdquo;<sup>[34]</sup>。</p>
+      </div>
+      <div class="box-amber">
+        <span class="box-tag">Meta分析 | Miller 2005</span>
+        <h4>&ge;400 IU与死亡率</h4>
+        <p style="font-size:14px;">&ge;400 IU/天与全因死亡率增加相关，出血性卒中风险+22%<sup>[35]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="box-green" style="margin:16px 0;">
+      <h4>本方案安全性定位</h4>
+      <p style="font-size:14px;">E 7.5 mg为风险研究剂量的<strong>约1/36</strong>，占UL 1.1%。&le;100 IU/天未发现出血或死亡率增加。额外补充应避免&ge;400 IU/天，尤其实用抗凝药、出血性卒中史及前列腺癌高危者。</p>
+    </div>
+
+    <p><strong>维生素C 280 mg与E的氧化还原协同</strong>：&alpha;-生育酚donate氢原子给LOO&bull;终止脂质过氧化链式反应，维生素C以更低电位（E&deg;' +0.28 V vs +0.48 V）将生育酚氧自由基还原为活性&alpha;-生育酚<sup>[36]</sup>。C 280 mg + E 7.5 mg构成膜保护双循环——E负责膜内清除，C负责膜外再生。</p>
+  </div>
+</section>
+
+<!-- ====== CHAPTER 7 ====== -->
+<section class="section" id="ch7">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">7</span><div class="line"></div></div>
+    <h2>安全性评估：双标准 UL 对照</h2>
+    <p class="subtitle">以可耐受最高摄入量（UL）为首要安全性边界，分别对照中国DRIs 2023<sup>[17]</sup>和EFSA最新科学意见<sup>[19]</sup></p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 11 &nbsp;安全性双标准对照汇总</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:750px;">
+      <table>
+        <thead><tr><th>指标</th><th style="text-align:right">总摄入</th><th style="text-align:right">中国UL</th><th style="text-align:center">中国评估</th><th style="text-align:right">EFSA UL</th><th style="text-align:center">EFSA评估</th></tr></thead>
+        <tbody>
+          <tr><td>钙 (mg)</td><td style="text-align:right"><strong>893 mg</strong></td><td style="text-align:right;color:var(--text-sec)">2,000 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（45%）</span></td><td style="text-align:right;color:var(--text-sec)">2,500 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（36%）</span></td></tr>
+          <tr><td>镁（补充剂） (mg)</td><td style="text-align:right"><strong>241 mg</strong></td><td style="text-align:right;color:var(--text-sec)">350 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（69%）</span></td><td style="text-align:right;color:var(--text-sec)">250 mg</td><td style="text-align:center"><span class="pill pill-safe">形态不适用*</span></td></tr>
+          <tr><td>维生素D (&mu;g)</td><td style="text-align:right"><strong>35.2 &mu;g</strong></td><td style="text-align:right;color:var(--text-sec)">50 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（70%）</span></td><td style="text-align:right;color:var(--text-sec)">100 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（35.2%）</span></td></tr>
+          <tr><td>叶酸 (&mu;g)</td><td style="text-align:right"><strong>425 &mu;g</strong></td><td style="text-align:right;color:var(--text-sec)">1,000 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（43%）</span></td><td style="text-align:right;color:var(--text-sec)">1,000 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（43%）</span></td></tr>
+          <tr><td>碘 (&mu;g)</td><td style="text-align:right"><strong>157.5 &mu;g</strong></td><td style="text-align:right;color:var(--text-sec)">600 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（26%）</span></td><td style="text-align:right;color:var(--text-sec)">600 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（26%）</span></td></tr>
+          <tr><td>锌 (mg)</td><td style="text-align:right"><strong>17.5 mg</strong></td><td style="text-align:right;color:var(--text-sec)">40 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（44%）</span></td><td style="text-align:right;color:var(--text-sec)">25 mg</td><td style="text-align:center"><span class="pill pill-warn">中高（70%）</span></td></tr>
+          <tr><td>硒 (&mu;g)</td><td style="text-align:right"><strong>60 &mu;g</strong></td><td style="text-align:right;color:var(--text-sec)">400 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（15%）</span></td><td style="text-align:right;color:var(--text-sec)">255 &mu;g</td><td style="text-align:center"><span class="pill pill-safe">安全（24%）</span></td></tr>
+          <tr><td>维生素B6 (mg)</td><td style="text-align:right"><strong>5.0 mg</strong></td><td style="text-align:right;color:var(--text-sec)">60 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（8%）</span></td><td style="text-align:right;color:var(--text-sec)">12 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（42%）</span></td></tr>
+          <tr><td>铜 (mg)</td><td style="text-align:right"><strong>1.95 mg</strong></td><td style="text-align:right;color:var(--text-sec)">8 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（24%）</span></td><td style="text-align:right;color:var(--text-sec)">5 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（39%）</span></td></tr>
+          <tr><td>锰 (mg)</td><td style="text-align:right"><strong>4.8-5.3 mg</strong></td><td style="text-align:right;color:var(--text-sec)">11 mg</td><td style="text-align:center"><span class="pill pill-safe">安全（44-48%）</span></td><td style="text-align:right;color:var(--text-sec)">8 mg（草案）</td><td style="text-align:center"><span class="pill pill-warn">60-66%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="reveal" style="font-size:12px;color:var(--text-sec);margin-top:10px;">*EFSA对补充剂形态镁的UL标准沿用 2001 年其前身欧盟食品科学委员会（SCF）在 2001 年发布的评估意见，该 UL 仅适用于易解离的镁盐（如氯化镁、硫酸镁、天冬氨酸镁、乳酸镁等）以及氧化镁等化合物，与本方案中高耐受镁不符，此处标注"形态不适用"。EFSA 2023年对部分营养素的UL进行了修订（维生素D UL上调至100 &mu;g，维生素B6 UL下调至12 mg，锰UL草案8 mg）。</p>
+
+  <div class="box-amber reveal">
+    <h4>需关注的边界指标</h4>
+    <div style="font-size:14px;">
+      <p><strong>锌 17.5 mg</strong> 占EFSA UL 70%：长期摄入需关注铜营养状况，建议每12个月检测血清铜/锌比值。</p>
+      <p><strong>锰 4.8-5.3 mg</strong> 占EFSA 2023年草案UL 60-66%：需留意最终法规值，目前处于安全区间。</p>
+      <p><strong>钾 2,268-2,528 mg</strong> 未达EFSA AI（3,500 mg）：低钠盐策略核心获益在于钠钾比改善（从3.0降至约1.3-1.6）。</p>
+      <p><strong>镁补充剂 241 mg</strong> 占中国UL 69%：EFSA对补充剂形态镁单独设限为250 mg，处于安全区间。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CHAPTER 8 ====== -->
+<section class="section" id="ch8">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">8</span><div class="line"></div></div>
+    <h2>特殊人群适配与风险提示</h2>
+    <p class="subtitle">不同人群特征与方案适配性分析</p>
+  </div>
+
+  <div class="reveal" style="margin-bottom:10px;"><span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;"></span><span style="font-size:13px;font-weight:600;">表 12 &nbsp;不同人群特征与方案适配性</span></div>
+  <div class="tbl-wrapper reveal">
+    <div class="tbl" style="min-width:600px;">
+      <table>
+        <thead><tr><th>维度</th><th>北方/农村特征</th><th>南方/城市特征</th><th style="text-align:center">方案适配性</th></tr></thead>
+        <tbody>
+          <tr><td><strong>钙基线</strong></td><td>更低（奶制品少）</td><td>略高</td><td style="text-align:center"><span class="pill pill-safe">高适配：双源钙设计边际效益更高</span></td></tr>
+          <tr><td><strong>维生素A/C</strong></td><td>更低（冬季蔬菜单调）</td><td>略好</td><td style="text-align:center"><span class="pill pill-safe">高适配：补充剂填补北方短板</span></td></tr>
+          <tr><td><strong>B族维生素</strong></td><td>不足率更高</td><td>略好</td><td style="text-align:center"><span class="pill pill-safe">高适配：甲基化B族全面覆盖</span></td></tr>
+          <tr><td><strong>维生素D</strong></td><td>冬季日照严重不足</td><td>略好</td><td style="text-align:center"><span class="pill pill-safe">高适配：34.5 &mu;g针对性补充</span></td></tr>
+          <tr><td><strong>胆碱</strong></td><td>普遍不足</td><td>普遍不足</td><td style="text-align:center"><span class="pill pill-safe">高适配：提升至观察性低风险区间</span></td></tr>
+          <tr><td><strong>维生素K2</strong></td><td>均缺乏</td><td>均缺乏</td><td style="text-align:center"><span class="pill pill-safe">高适配：68.3 &mu;g MK-7填补结构性缺口</span></td></tr>
+          <tr><td><strong>膳食纤维</strong></td><td>季节性波动大</td><td>相对稳定</td><td style="text-align:center"><span class="pill pill-safe">高适配：11 g补充剂提供稳定基础量</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="box-red reveal">
+    <h4>禁忌与警告</h4>
+    <div style="font-size:14px;">
+      <p><strong>1. 抗凝药使用者</strong>：华法林通过抑制VKORC1发挥抗凝效应，外源性K2摄入（本方案68.3 &mu;g）可能拮抗其药效。服用香豆素类抗凝药者需在医生监督下评估维生素K2摄入。</p>
+      <p><strong>2. 肾功能不全</strong>：eGFR &lt; 30者禁用低钠盐（高钾风险）；CKD 3期以上需在医生指导下使用，定期监测血钾。</p>
+      <p><strong>3. 育龄期女性</strong>：本方案刻意去铁，对成年男性及绝经女性合理。育龄期女性需评估铁营养状况，必要时额外补充铁剂。</p>
+      <p><strong>4. 高碘地区居民</strong>：水源性高碘地区（水碘 &gt; 100 &mu;g/L）应确认当地水碘水平，必要时改用无碘盐。</p>
+      <p><strong>5. 维生素D监测</strong>：长期摄入35.2 &mu;g/d建议每6-12个月检测血清25(OH)D，目标维持在50-75 nmol/L。</p>
+      <p><strong>6. 膳食纤维适应</strong>：建议首周以半勺（6.5 g）起始，两周内递增至全量，配合足量饮水（&ge;1.5 L/天）。</p>
+      <p><strong>7. 胆碱能症状监测</strong>：石杉碱甲为可逆性乙酰胆碱酯酶抑制剂，如个体出现胆碱能过剩相关不适，可考虑间歇服用或调整至隔日1粒。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CHAPTER 9 ====== -->
+<section class="section" id="ch9">
+  <div class="reveal">
+    <div class="sec-header"><span class="badge">9</span><div class="line"></div></div>
+    <h2>结论</h2>
+  </div>
+
+  <div class="reveal">
+    <p>本方案由4种胶囊补充剂（每日7粒）、膳食纤维粉（每日1勺13 g）与低钠盐（烹饪替代）构成，在中国成人平均膳食背景下实现了以下循证营养目标：</p>
+
+    <div class="box-green">
+      <h4>核心结论</h4>
+      <div style="font-size:14px;">
+        <p><strong>1. 基础微量营养素全覆盖</strong>：钙（893 mg）、镁（470 mg）、维生素D（34.5 &mu;g）、A（805.5 &mu;g RAE）、C（280 mg）、B族、锌（17.5 mg）、硒（60 &mu;g）、碘（157.5 &mu;g）均达到或超越中国DRIs 2023标准。</p>
+        <p><strong>2. 骨代谢支持链完整</strong>：双源钙 + D3 35.2 &mu;g / K2-MK7 68.3 &mu;g / 硼4.6 mg / I型胶原蛋白364 mg。Meta分析（19项RCT, n=6,759）证实K2可显著增加骨钙素羧化<sup>[1]</sup>。</p>
+        <p><strong>3. 认知与神经保护</strong>：胆碱332-361 mg进入观察性研究痴呆低风险区间<sup>[4][5]</sup>。六靶点协同配方含Alpha-GPC、胞磷胆碱钠400 mg（Xerenoos<sup>&reg;</sup>）<sup>[20][21][22]</sup>、尿苷UMP<sup>[24]</sup>、AvailOM DHA<sup>[27]</sup>、石杉碱甲<sup>[28]</sup>、假马齿苋（BacoMind<sup>&reg;</sup>）<sup>[26]</sup>等。</p>
+        <p><strong>4. 甲基化优化</strong>：全活性B族（Quatrefolic 425 &mu;g<sup>[29]</sup> + 甲基B12 125 &mu;g<sup>[30]</sup> + PLP 5.0 mg<sup>[31]</sup> + TMG 37.5 mg）绕过MTHFR代谢瓶颈。</p>
+        <p><strong>5. 电解质平衡</strong>：低钠盐纳入后钾达2,268-2,528 mg，超过中国AI（2,000 mg），钠钾比从3.0显著改善。SSaSS后续分析证实富钾盐可降低ACS风险20%<sup>[11]</sup>。</p>
+        <p><strong>6. 维生素D每日策略</strong>：35.2 &mu;g采用每日补充，与IPD Meta分析（104,727人）中显示癌症死亡率降低12%的每日给药策略一致<sup>[13]</sup>。</p>
+        <p><strong>7. 膳食纤维-代谢轴</strong>：三源混合纤维11 g/天，叠加膳食后总摄入23-25 g接近AI。Gavami等（181项RCT, n=14,505）证实可溶性纤维补充剂可降低LDL-C 8.28 mg/dL<sup>[10]</sup>。</p>
+        <p><strong>8. 矿物质多效网络</strong>：镁470 mg，每100 mg增量关联卒中风险降低7%、心衰风险降低22%、糖尿病风险降低19%、全因死亡风险降低10%<sup>[14]</sup>。钙镁比1.9:1处于上海队列保护效应区间<sup>[15]</sup>。</p>
+      </div>
+    </div>
+
+    <div class="box-amber" style="margin:16px 0;">
+      <h4>EFSA框架下的关键边界条件</h4>
+      <p style="font-size:14px;">锌17.5 mg占EFSA UL 70%，长期摄入需关注铜营养状况，建议每12个月检测血清铜/锌比值。锰占EFSA 2023年草案UL约60-66%，需留意最终法规值。钾未达EFSA AI（3,500 mg），核心获益在于钠钾比改善。膳食纤维男性略不足，建议通过增加全谷物或蔬菜补充约5 g以完全达标。</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <h3>适用边界</h3>
+      <p>本方案对北方、农村、日照不足地区及脑力工作者、中老年、MTHFR突变携带者具有高适配性。育龄期女性需额外关注铁营养；高碘地区及肾功能不全者需调整盐类选择；服用华法林等抗凝药者需在医生监督下评估维生素K2摄入。扣除需通过膳食持续改善的植物化学物等不可补充维度外，核心微量营养素、矿物质及膳食纤维架构在中国DRIs 2023标准下已无显著短板。每日总成本约13.33元，性价比较高。</p>
+    </div>
+
+    <div class="box-blue">
+      <h4>最终评估</h4>
+      <p style="font-size:15px;">在23项评估营养素中，本方案实现了 <strong>20项达标或接近达标</strong>。所有指标在中国DRIs UL框架下均处于安全区间；EFSA框架下锌（70% UL）和锰（草案60-66% UL）需关注但均处于可接受范围。整体评估：<strong>该方案是一个设计科学、循证基础扎实、安全性良好的复合营养补充架构</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== REFERENCES ====== -->
+<section class="section" id="refs">
+  <div class="reveal">
+    <div class="gold-line"></div>
+    <div class="sec-header" style="margin-top:32px;"><span class="badge" style="font-size:12px;">R</span>
+      <div><h2 style="margin-bottom:2px;">参考文献</h2><p style="font-size:13px;color:var(--text-sec);font-family:var(--font-serif);font-style:italic;">References</p></div>
+    </div>
+  </div>
+
+  <ol class="reveal" style="font-size:12px;line-height:1.8;color:var(--text-sec);padding-left:20px;">
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[1]</span>Xie C, et al. Effects of vitamin K supplementation on bone mineral density at different sites and bone metabolism: a meta-analysis and systematic review. <em>Bone Joint Res</em>. 2024;13(12):750-763. DOI: 10.1302/2046-3758.1312.BJR-2024-0053.R1</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[2]</span>Aaseth JO, et al. The Importance of Vitamin K and the Combination of Vitamins K and D for Calcium Metabolism and Bone Health: A Review. <em>Nutrients</em>. 2024;16(15):2420. DOI: 10.3390/nu16152420</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[3]</span>Poly C, et al. The relation of dietary choline to cognitive performance and white-matter hyperintensity in the Framingham Offspring Cohort. <em>Am J Clin Nutr</em>. 2011;94(6):1584-1591. DOI: 10.3945/ajcn.110.008938</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[4]</span>Yuan J, et al. Association of dietary choline intake with cognitive function and dementia: the Framingham Heart Study Offspring Cohort. <em>Am J Clin Nutr</em>. 2022;116(5):1201-1207. DOI: 10.1093/ajcn/nqac187</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[5]</span>Dan Liu, et al. The association of dietary choline intakes with cognitive function in older adults from underdeveloped regions of China: findings from the NCDFaC study. <em>Nutr J</em>. 2025;24:148. DOI: 10.1186/s12937-025-01120-w</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[6]</span>Sagaro GG, Amenta F. Comparison of the effects of choline alphoscerate and citicoline in patients with dementia disorders: a systematic review and meta-analysis. <em>Front Neurol</em>. 2025;16:1649661. DOI: 10.3389/fneur.2025.1649661</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[7]</span>Jeon J, et al. Oral alpha-GPC for mild cognitive impairment: a randomized double-blind placebo-controlled trial. <em>BMC Geriatrics</em>. 2024;24:774. DOI: 10.1186/s12877-024-05238-4</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[8]</span>Clarke R, et al. Homocysteine and Coronary Heart Disease: Meta-analysis of MTHFR Case-Control Studies, Avoiding Publication Bias. <em>PLoS Med</em>. 2012;9(2):e1001177. DOI: 10.1371/journal.pmed.1001177</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[9]</span>Ramezani F, et al. Dietary fiber intake and all-cause and cause-specific mortality: An updated systematic review and meta-analysis of prospective cohort studies. <em>Clin Nutr</em>. 2024;43(1):65-83. DOI: 10.1016/j.clnu.2023.11.005</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[10]</span>Gavami A, et al. Soluble Fiber Supplementation and Serum Lipid Profile: A Systematic Review and Dose-Response Meta-Analysis of Randomized Controlled Trials. <em>Adv Nutr</em>. 2023;14(3):465-474. DOI: 10.1016/j.advnut.2023.01.005</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[11]</span>Yu J, Arnott C, Li Q, et al. Secondary Analysis of the Salt Substitute and Stroke Study (SSaSS): Effects of Potassium-Enriched Salt on Cardiac Outcomes. <em>Hypertension</em>. 2024;81(5):1031-1040. DOI: 10.1161/HYPERTENSIONAHA.123.22410</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[12]</span>Kwon YJ, et al. Association between dietary sodium, potassium, and sodium-to-potassium ratio and mortality. <em>Front Nutr</em>. 2022;9:1053585. DOI: 10.3389/fnut.2022.1053585</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[13]</span>Kuznia S, et al. Vitamin D supplementation and cancer mortality: systematic review and meta-analysis of individual patient data. <em>Ageing Res Rev</em>. 2023;87:101923. DOI: 10.1016/j.arr.2023.101923</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[14]</span>Fang X, et al. Dietary magnesium intake and the risk of cardiovascular disease, type 2 diabetes, and all-cause mortality: a dose-response meta-analysis of prospective cohort studies. <em>BMC Med</em>. 2016;14:210. DOI: 10.1186/s12916-016-0742-z</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[15]</span>Dai Q, et al. Modifying effect of calcium/magnesium intake ratio and mortality: a population-based cohort study. <em>BMJ Open</em>. 2013;3:e002111. DOI: 10.1136/bmjopen-2012-002111</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[16]</span>Vinceti M, et al. Selenium for preventing cancer: updated Cochrane systematic review and meta-analysis. <em>Cochrane Database Syst Rev</em>. 2018;(1):CD005195. DOI: 10.1002/14651858.CD005195.pub4</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[17]</span>中国营养学会. 中国居民膳食营养素参考摄入量（2023版）. 北京: 人民卫生出版社, 2023.</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[18]</span>National Institutes of Health. Choline: Fact Sheet for Health Professionals. Office of Dietary Supplements. Updated 2024.</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[19]</span>EFSA NDA Panel. Dietary Reference Values for vitamin D. <em>EFSA Journal</em>. 2016;14(10):4547. DOI: 10.2903/j.efsa.2016.4547</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[20]</span>Bonvicini M, Travaglini S, Lelli D, Incalzi RA, Pedone C. Is citicoline effective in preventing and slowing down dementia? A systematic review and a meta-analysis. <em>Nutrients</em>. 2023;15(2):386. DOI: 10.3390/nu15020386</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[21]</span>Alvarez-Sab&iacute;n J, Santamarina E, Maisterra O, Jacas C, Molina CA, Quintana M. Long-term treatment with citicoline prevents cognitive decline and predicts a better quality of life after a first ischemic stroke. <em>Int J Mol Sci</em>. 2016;17(3):390. DOI: 10.3390/ijms17030390</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[22]</span>Piamonte BLC, Espiritu AI, Anlacan VMM. Effects of citicoline as an adjunct treatment for Alzheimer's disease: a systematic review. <em>J Alzheimers Dis</em>. 2020;76(2):725-732. DOI: 10.3233/JAD-200507</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[23]</span>Sagaro GG, Traini E, Amenta F. Activity of choline alphoscerate on adult-onset cognitive dysfunctions: a systematic review and meta-analysis. <em>J Alzheimers Dis</em>. 2023;92(1):59-70. DOI: 10.3233/JAD-221189</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[24]</span>Wurtman RJ, Cansev M, Ulus IH. Synapse formation is enhanced by oral administration of uridine and DHA, the circulating precursors of brain phosphatides. <em>J Nutr Health Aging</em>. 2009;13(3):189-197. DOI: 10.1007/s12603-009-0056-3</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[25]</span>Adibhatla RM, Hatcher JF, Dempsey RJ. Citicoline: neuroprotective mechanisms in cerebral ischemia. <em>J Neurochem</em>. 2002;80(1):12-23. DOI: 10.1046/j.0022-3042.2001.00697.x</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[26]</span>Roodenrys S, Booth D, Bulzomi S, Phipps A, Micallef C, Smoker J. Chronic effects of <em>Brahmi</em> (<em>Bacopa monnieri</em>) on human memory. <em>Neuropsychopharmacology</em>. 2002;27(2):279-281. DOI: 10.1016/S0893-133X(02)00327-7</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[27]</span>Manusama K, Goni V, L&uuml;ersen K, et al. In vitro dissolution behaviour and absorption in humans of a novel mixed <em>l</em>-lysine salt formulation of EPA and DHA. <em>Prostaglandins Leukot Essent Fatty Acids</em>. 2021;164:102232. DOI: 10.1016/j.plefa.2021.102232</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[28]</span>Yang G, Wang Y, Sun J, Zhang K, Liu J. Huperzine A for Alzheimer's disease: a systematic review and meta-analysis of randomized clinical trials. <em>PLoS One</em>. 2013;8(9):e74916. DOI: 10.1371/journal.pone.0074916</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[29]</span>Scaglione F, Panzavolta G. Folate, folic acid and 5-methyltetrahydrofolate are not the same thing. <em>Xenobiotica</em>. 2014;44(5):480-488. DOI: 10.3109/00498254.2013.845705</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[30]</span>Paul C, Brady DM. Comparative Bioavailability and Utilization of Particular Forms of B12 Supplements With Potential to Mitigate B12-Related Genetic Polymorphisms. <em>Integr Med (Encinitas)</em>. 2017;16(1):42-49. PMID: 28223907</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[31]</span>Midttun &Oslash;, Hustad S, Schneede J, Ueland PM. Plasma vitamin B-6 forms and their relation to transsulfuration metabolites in a large, population-based study. <em>Am J Clin Nutr</em>. 2007;86(1):131-138. DOI: 10.1093/ajcn/86.1.131</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[32]</span>Lonn E, Bosch J, Yusuf S, et al. Effects of long-term vitamin E supplementation on cardiovascular events and cancer: a randomized controlled trial. <em>JAMA</em>. 2005;293(11):1338-1347. DOI: 10.1001/jama.293.11.1338</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[33]</span>Klein EA, Thompson IM Jr, Tangen CM, et al. Vitamin E and the risk of prostate cancer: the Selenium and Vitamin E Cancer Prevention Trial (SELECT). <em>JAMA</em>. 2011;306(14):1549-1556. DOI: 10.1001/jama.2011.1437</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[34]</span>Bjelakovic G, Nikolova D, Gluud LL, Simonetti RG, Gluud C. Antioxidant supplements for prevention of mortality in healthy participants and patients with various diseases. <em>Cochrane Database Syst Rev</em>. 2012;3:CD007176. DOI: 10.1002/14651858.CD007176.pub2</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[35]</span>Miller ER 3rd, Pastor-Barriuso R, Dalal D, Riemersma RA, Appel LJ, Guallar E. Meta-analysis: high-dosage vitamin E supplementation may increase all-cause mortality. <em>Ann Intern Med</em>. 2005;142(1):37-46. DOI: 10.7326/0003-4819-142-1-200501040-00110</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[36]</span>Traber MG, Stevens JF. Vitamins C and E: beneficial effects from a mechanistic perspective. <em>Free Radic Biol Med</em>. 2011;51(5):1000-1013. DOI: 10.1016/j.freeradbiomed.2011.05.017</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[37]</span>Winther KH, Rayman MP, Bonnema SJ, Heged&uuml;s L. Selenium in thyroid disorders&mdash;essential knowledge for clinicians. <em>Nat Rev Endocrinol</em>. 2020;16(3):165-176. DOI: 10.1038/s41574-019-0311-6</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[38]</span>Rees K, et al. Selenium supplementation for Hashimoto's thyroiditis. <em>Cochrane Database Syst Rev</em>. 2013;(6):CD010223. DOI: 10.1002/14651858.CD010223.pub2</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[39]</span>Yadrick MK, Kenney MA, Winterfeldt EA. Iron, copper, and zinc status: response to supplementation with zinc or zinc and iron in adult females. <em>Am J Clin Nutr</em>. 1989;49(1):145-150. DOI: 10.1093/ajcn/49.1.145</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[40]</span>Fischer PW, Giroux A, L'Abbe MR. The effect of dietary zinc on intestinal copper absorption. <em>Am J Clin Nutr</em>. 1981;34(9):1670-1675. DOI: 10.1093/ajcn/34.9.1670</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[41]</span>Wazir S, Ghobrial I. Zinc-Induced Copper Deficiency as a Rare Cause of Pancytopenia. <em>Cureus</em>. 2023;15(10):e46931. DOI: 10.7759/cureus.46931</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[42]</span>Zimmermann MB, Jooste PL, Pandav CS. Iodine-deficiency disorders. <em>Lancet</em>. 2008;372(9645):1251-1262. DOI: 10.1016/S0140-6736(08)61005-3</li>
+    <li style="margin-bottom:6px;"><span style="font-family:var(--font-mono);color:var(--text-sec);opacity:0.5;margin-right:6px;">[43]</span>Pearce EN. Iodine Deficiency Disorders and Their Prevention. <em>Endocr Rev</em>. 2021;42(5):577-590. DOI: 10.1210/endrev/bnab030</li>
+
+  </ol>
+
+  <div class="reveal" style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);text-align:center;">
+    <p style="font-size:11px;color:var(--text-sec);opacity:0.6;line-height:1.8;">本白皮书仅供学术参考，不构成医疗建议。个体营养需求存在差异，使用任何营养补充方案前请咨询注册营养师或医生。</p>
+    <p style="font-size:11px;color:var(--text-sec);opacity:0.4;margin-top:6px;">基于公开发表的科学研究文献编制 | 数据截止2025年6月</p>
+  </div>
+</section>
+
+<!-- Back to top -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">&#8593;</button>
+
+<script>
+// ====== Scroll reveal ======
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.dose-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => observer.observe(el));
+
+// ====== Back to top ======
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('show', window.scrollY > 500);
+}, { passive: true });
+</script>
+
+</main>
+
+</body>
+</html>
