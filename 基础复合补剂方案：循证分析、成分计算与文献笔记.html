@@ -12,27 +12,93 @@
 
 :root {
   --bg-dark: #0A0C10;
-  --bg-light: #F4F4F1;
+  --bg-light: #F0EFEA;
   --bg-white: #FFFFFF;
-  --text: #1A1A1A;
-  --text-sec: #4A4A4A;
-  --gold: #D4AF37;
-  --teal: #2A4B45;
-  --brick: #C8483F;
-  --border: #EAEAEA;
+  --text: #1C1C1E;
+  --text-sec: #5A5A5C;
+  --gold: #C8A82B;
+  --teal: #2D5249;
+  --brick: #C4453D;
+  --border: #DDDAD3;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --transition-default: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
   --font-serif: "Georgia", "Times New Roman", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
-  --font-mono: "Courier New", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Courier New", monospace;
 }
 
 html { scroll-behavior: smooth; }
+
+/* ====== Enhanced Selection & Focus ====== */
+::selection {
+  background: rgba(200,168,43,0.25);
+  color: var(--text);
+}
+:focus-visible {
+  outline: 2.5px solid rgba(200,168,43,0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ====== Smooth Scrolling Enhancement ====== */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ====== Image Optimization ====== */
+img { max-width: 100%; height: auto; display: block; }
+
+/* ====== Link Defaults ====== */
+a { color: inherit; text-decoration: none; }
+
+/* ====== Enhanced Card Numbered Items in Boxes ====== */
+.box span[style*="border-radius:50%"] {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+  transition: var(--transition-default) !important;
+}
+
+/* ====== Responsive Typography Scale ====== */
+@media (max-width: 767px) {
+  body { line-height: 1.7; }
+  p { font-size: 15px; line-height: 1.8; }
+  .section { padding: 72px 4vw; }
+  .card-inner { padding: 24px; }
+  .ev-card { padding: 24px 20px; }
+}
+
+/* ====== Enhanced Table Responsive ====== */
+@media (max-width: 767px) {
+  .tbl-wrapper { margin: 0 -16px; padding: 0 16px; }
+  .tbl { border-radius: var(--radius-sm); min-width: 100%; }
+  .tbl thead th { padding: 10px 8px; font-size: 10px; }
+  .tbl td { padding: 8px 8px; font-size: 12px; }
+}
+
+/* ====== Subtle body background texture ====== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(200,168,43,0.015) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(45,82,73,0.012) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
 
 body {
   font-family: var(--font-sans);
   color: var(--text);
   background: var(--bg-light);
-  line-height: 1.7;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ====== Hero ====== */
@@ -49,129 +115,156 @@ body {
 }
 .hero-grid {
   position: absolute; inset: 0;
-  opacity: 0.03;
-  background-image: repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px);
+  opacity: 0.035;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.8) 59px, rgba(255,255,255,0.8) 60px);
+  animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(60px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid { animation: none; }
 }
 .hero-glow {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%);
-  opacity: 0.1;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,168,43,0.35) 0%, rgba(200,168,43,0.08) 40%, transparent 72%);
+  opacity: 0.12;
+  filter: blur(20px);
 }
-.hero-inner { position: relative; z-index: 2; padding: 0 5vw; max-width: 900px; width: 100%; }
+.hero-inner { position: relative; z-index: 2; padding: 0 5vw; max-width: 920px; width: 100%; }
 .hero-subtitle {
   font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(10px, 2vw, 14px);
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(255,255,255,0.4); margin-bottom: 4vw;
+  font-size: clamp(11px, 1.8vw, 14px);
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 3.5vw;
+  font-weight: 400;
 }
 .hero h1 {
-  font-size: clamp(2rem, 7vw, 5rem); font-weight: 700;
-  color: #fff; line-height: 1.25;
+  font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 800;
+  color: #fff; line-height: 1.15;
   word-break: normal; overflow-wrap: break-word;
+  letter-spacing: -0.02em;
   opacity: 0;
-  animation: fadeInUp 0.8s ease forwards 0.2s;
+  animation: fadeInUp 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.2s;
 }
-@media (min-width: 768px) { .hero h1 { font-size: clamp(1.5rem, 4vw, 3rem); } }
+@media (min-width: 768px) { .hero h1 { font-size: clamp(1.8rem, 3.8vw, 3.2rem); } }
 
 .hero-line {
-  height: 1px; margin: 24px auto;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  height: 2px; margin: 28px auto;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, #E0C850 50%, var(--gold) 80%, transparent);
   width: 0;
-  animation: expandLine 1s ease forwards 0.5s;
+  border-radius: 1px;
+  animation: expandLine 1.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.5s;
 }
-@keyframes expandLine { to { width: 40%; } }
+@keyframes expandLine { to { width: 55%; max-width: 220px; } }
 
 .hero-desc {
-  font-size: clamp(13px, 2vw, 17px); color: rgba(255,255,255,0.7);
-  line-height: 1.7; margin-bottom: 32px;
+  font-size: clamp(14px, 1.8vw, 17px); color: rgba(255,255,255,0.75);
+  line-height: 1.75; margin-bottom: 36px;
+  font-weight: 350;
+  letter-spacing: 0.01em;
   opacity: 0;
-  animation: fadeInUp 0.8s ease forwards 0.8s;
+  animation: fadeInUp 0.85s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.8s;
 }
 .hero-meta {
   font-size: 13px; color: rgba(255,255,255,0.5);
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards 1.2s;
+  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 1.2s;
+  letter-spacing: 0.02em;
 }
 .hero-meta span.gold { color: var(--gold); }
 
 .scroll-hint {
-  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
   opacity: 0;
-  animation: fadeInUpPartial 0.6s ease forwards 1.5s;
+  animation: fadeInUpPartial 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 1.6s;
 }
-.scroll-hint span { font-size: 9px; letter-spacing: 3px; color: #fff; text-transform: uppercase; font-family: var(--font-mono); }
-.scroll-hint .bar { width: 1px; height: 28px; background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent); }
+.scroll-hint span { font-size: 10px; letter-spacing: 3.5px; color: rgba(255,255,255,0.55); text-transform: uppercase; font-family: var(--font-mono); font-weight: 500; }
+.scroll-hint .bar { width: 1.5px; height: 32px; background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent 80%); border-radius: 1px; }
 
 /* ====== Layout ====== */
-.section { padding: 80px 5vw; max-width: 1000px; margin: 0 auto; }
-@media (min-width: 768px) { .section { padding: 100px 80px; } }
+.section { padding: 96px 5vw; max-width: 1040px; margin: 0 auto; }
+@media (min-width: 768px) { .section { padding: 120px 80px; } }
 
 /* ====== TOC ====== */
 .toc-list { list-style: none; }
 .toc-list li {
-  padding: 14px 0; border-bottom: 1px dotted #E0E0E0;
-  cursor: pointer; transition: color 0.2s;
-  font-size: 15px; font-weight: 500;
+  padding: 16px 0; border-bottom: 1px dotted #D5D2CC;
+  cursor: pointer; transition: var(--transition-default);
+  font-size: 15.5px; font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  padding-left: 12px;
+  margin-left: -12px;
 }
-.toc-list li:hover { color: var(--teal); }
-.toc-list li .sub { display: block; font-size: 12px; color: var(--text-sec); margin-top: 3px; font-weight: 400; }
+.toc-list li:hover { 
+  color: var(--teal); 
+  background: rgba(45,82,73,0.04);
+  padding-left: 16px;
+}
+.toc-list li .sub { display: block; font-size: 12.5px; color: var(--text-sec); margin-top: 4px; font-weight: 400; line-height: 1.5; letter-spacing: 0; }
 
 /* ====== Section Header ====== */
-.sec-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sec-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
 .badge {
-  width: 36px; height: 36px; border-radius: 50%; background: var(--text);
+  width: 38px; height: 38px; border-radius: 50%; background: var(--text);
   color: #fff; display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-mono); font-size: 13px; font-weight: 600;
-  flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  flex-shrink: 0; box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+  transition: var(--transition-default);
 }
-.sec-header .line { height: 1px; flex: 1; max-width: 60px; background: #D1D1D1; }
+.badge:hover { transform: scale(1.08); box-shadow: 0 4px 16px rgba(0,0,0,0.22); }
+.sec-header .line { height: 1.5px; flex: 1; max-width: 80px; background: linear-gradient(90deg, #C8C5BF, transparent); border-radius: 1px; }
 
-.section h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
-.section h2 + .subtitle { font-size: 16px; color: var(--text-sec); font-family: var(--font-serif); font-style: italic; margin-bottom: 32px; }
+.section h2 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; line-height: 1.2; }
+.section h2 + .subtitle { font-size: 16px; color: var(--text-sec); font-family: var(--font-serif); font-style: italic; margin-bottom: 40px; line-height: 1.6; }
 
 /* ====== Animations ====== */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeInUpPartial {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 0.35; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 0.4; transform: translateY(0); }
 }
 .reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ====== Cards / Boxes ====== */
 .card {
-  background: #fff; border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  background: var(--bg-white); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   border: 1px solid var(--border);
   overflow: hidden;
+  transition: var(--transition-default);
 }
-.card-bar { height: 4px; background: linear-gradient(90deg, var(--teal), var(--gold)); }
-.card-inner { padding: 28px; }
+.card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.card-bar { height: 4.5px; background: linear-gradient(90deg, var(--teal) 0%, #3D6B62 40%, var(--gold) 100%); border-radius: 0; }
+.card-inner { padding: 36px; }
 
-.box { border-radius: 0 10px 10px 0; padding: 22px 26px 22px 48px; margin: 16px 0; }
-.box-green { border-left: 3px solid var(--teal); background: rgba(42,75,69,0.06); }
-.box-amber { border-left: 3px solid var(--gold); background: rgba(212,175,55,0.06); }
-.box-red { border-left: 3px solid var(--brick); background: rgba(200,72,63,0.06); }
-.box-blue { border-left: 3px solid #1565C0; background: rgba(21,101,192,0.06); }
+.box { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 26px 30px 26px 52px; margin: 20px 0; }
+.box-green { border-left: 4px solid var(--teal); background: linear-gradient(135deg, rgba(45,82,73,0.07) 0%, rgba(45,82,73,0.03) 100%); }
+.box-amber { border-left: 4px solid var(--gold); background: linear-gradient(135deg, rgba(200,168,43,0.07) 0%, rgba(200,168,43,0.03) 100%); }
+.box-red { border-left: 4px solid var(--brick); background: linear-gradient(135deg, rgba(196,69,61,0.07) 0%, rgba(196,69,61,0.03) 100%); }
+.box-blue { border-left: 4px solid #1565C0; background: linear-gradient(135deg, rgba(21,101,192,0.07) 0%, rgba(21,101,192,0.03) 100%); }
 
 .box-tag {
-  display: inline-block; font-size: 10px; letter-spacing: 1px;
+  display: inline-block; font-size: 10.5px; letter-spacing: 1.2px;
   text-transform: uppercase; font-family: var(--font-mono);
-  padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; font-weight: 600;
 }
-.box-green .box-tag { background: rgba(42,75,69,0.12); color: var(--teal); }
-.box-amber .box-tag { background: rgba(184,134,11,0.12); color: #9A5B1A; }
+.box-green .box-tag { background: rgba(45,82,73,0.12); color: var(--teal); }
+.box-amber .box-tag { background: rgba(200,168,43,0.14); color: #8B6914; }
 .box-blue .box-tag { background: rgba(21,101,192,0.12); color: #1565C0; }
-.box-red .box-tag { background: rgba(200,72,63,0.12); color: var(--brick); }
+.box-red .box-tag { background: rgba(196,69,61,0.12); color: var(--brick); }
 
 /* ====== Tables ====== */
 .tbl-wrapper {
@@ -180,157 +273,165 @@ body {
   margin: 0 -20px;
   padding: 0 20px;
   scrollbar-width: thin;
-  scrollbar-color: #c8c8c8 #f1f1f1;
+  scrollbar-color: #c0bdb6 #e8e6e1;
 }
-.tbl-wrapper::-webkit-scrollbar { height: 5px; }
-.tbl-wrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-.tbl-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #b8b8b8, #d0d0d0); border-radius: 10px; }
-.tbl-wrapper::-webkit-scrollbar-thumb:hover { background: linear-gradient(90deg, #a8a8a8, #c0c0c0); }
+.tbl-wrapper::-webkit-scrollbar { height: 6px; }
+.tbl-wrapper::-webkit-scrollbar-track { background: #e8e6e1; border-radius: 10px; }
+.tbl-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #b0ada6, #c8c5be); border-radius: 10px; }
+.tbl-wrapper::-webkit-scrollbar-thumb:hover { background: linear-gradient(90deg, #98958e, #b0ada6); }
 @media (min-width: 768px) { .tbl-wrapper { margin: 0; padding: 0; } }
 
 .tbl {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.05);
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
   overflow: hidden;
   min-width: 640px;
-  transition: box-shadow 0.3s ease;
+  transition: var(--transition-default);
 }
 .tbl:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 12px 40px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-md);
 }
-.tbl table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
-.tbl thead { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); color: #fff; }
+.tbl table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; }
+.tbl thead { background: linear-gradient(135deg, #232323 0%, #161618 100%); color: #fff; }
 .tbl thead th {
   position: relative;
-  padding: 12px 10px;
+  padding: 14px 12px;
   text-align: left;
   font-weight: 700;
   font-size: 10.5px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   white-space: nowrap;
-  border-bottom: 2px solid rgba(212,175,55,0.3);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-bottom: 2.5px solid rgba(200,168,43,0.35);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  line-height: 1.3;
 }
-.tbl thead th:first-child { border-radius: 14px 0 0 0; }
-.tbl thead th:last-child { border-radius: 0 14px 0 0; }
+.tbl thead th:first-child { border-radius: var(--radius-md) 0 0 0; }
+.tbl thead th:last-child { border-radius: 0 var(--radius-md) 0 0; }
 .tbl tbody tr {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border-left: 3px solid transparent;
+  transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  border-left: 3.5px solid transparent;
 }
-.tbl tbody tr:nth-child(even) { background: rgba(244,244,241,0.5); }
+.tbl tbody tr:nth-child(even) { background: rgba(240,239,234,0.6); }
 .tbl tbody tr:hover {
-  background: rgba(42,75,69,0.06);
+  background: rgba(45,82,73,0.06);
   border-left-color: var(--teal);
-  transform: translateX(1px);
+  transform: translateX(2px);
 }
 .tbl td {
-  padding: 10px 10px;
-  border-bottom: 1px solid rgba(234,234,234,0.8);
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(221,218,211,0.85);
   vertical-align: middle;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .tbl tbody tr:last-child td { border-bottom: none; }
 
 /* Compact table: unified cell color, inline color overrides ignored */
-.tbl.tbl-compact tbody td { color: var(--text-sec); }
-.tbl.tbl-compact tbody td strong { color: var(--text); }
+.tbl.tbl-compact tbody td { color: var(--text-sec); letter-spacing: 0.01em; }
+.tbl.tbl-compact tbody td strong { color: var(--text); font-weight: 700; }
 
 /* Section row styling with enhanced visual hierarchy */
 .tbl .sec-row {
-  background: linear-gradient(135deg, #f0f0eb 0%, #e8e8e3 100%);
+  background: linear-gradient(135deg, #EBEAE5 0%, #E2E0DA 100%);
   font-weight: 700;
   font-size: 11.5px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--text-sec);
-  border-left: 3px solid var(--gold);
+  border-left: 3.5px solid var(--gold);
 }
 .tbl .sec-row td {
-  padding: 9px 10px;
-  border-bottom: 1px solid rgba(212,175,55,0.15);
-  border-top: 1px solid rgba(212,175,55,0.1);
+  padding: 11px 12px;
+  border-bottom: 1.5px solid rgba(200,168,43,0.18);
+  border-top: 1px solid rgba(200,168,43,0.12);
 }
 
 /* ====== Compact Table (for Table 10 mobile) ====== */
 .tbl.tbl-compact { min-width: 640px; }
-.tbl.tbl-compact table { font-size: 11px; }
-.tbl.tbl-compact th { padding: 8px 6px; font-size: 9.5px; white-space: normal; line-height: 1.25; letter-spacing: 0.3px; }
-.tbl.tbl-compact td { padding: 7px 6px; font-size: 11px; line-height: 1.35; }
-.tbl.tbl-compact .pill { white-space: normal; padding: 2px 5px; font-size: 9.5px; line-height: 1.3; }
+.tbl.tbl-compact table { font-size: 11.5px; }
+.tbl.tbl-compact th { padding: 10px 8px; font-size: 10px; white-space: normal; line-height: 1.3; letter-spacing: 0.35px; }
+.tbl.tbl-compact td { padding: 8px 8px; font-size: 11.5px; line-height: 1.45; }
+.tbl.tbl-compact .pill { white-space: normal; padding: 3px 6px; font-size: 10px; line-height: 1.35; }
 @media (min-width: 768px) {
   .tbl.tbl-compact { min-width: 800px; }
-  .tbl.tbl-compact table { font-size: 12px; }
-  .tbl.tbl-compact th { padding: 10px 8px; font-size: 10.5px; white-space: nowrap; letter-spacing: 0.4px; }
-  .tbl.tbl-compact td { padding: 8px 8px; font-size: 12px; }
-  .tbl.tbl-compact .pill { white-space: nowrap; padding: 3px 8px; font-size: 11px; }
+  .tbl.tbl-compact table { font-size: 12.5px; }
+  .tbl.tbl-compact th { padding: 12px 10px; font-size: 10.5px; white-space: nowrap; letter-spacing: 0.5px; }
+  .tbl.tbl-compact td { padding: 10px 10px; font-size: 12.5px; }
+  .tbl.tbl-compact .pill { white-space: nowrap; padding: 4px 10px; font-size: 11px; }
 }
 
 /* ====== Pills ====== */
 .pill {
   display: inline-block;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
   white-space: nowrap;
-  letter-spacing: 0.2px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.06);
-  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 4px rgba(0,0,0,0.08);
+  transition: var(--transition-default);
   border: 1px solid transparent;
 }
-.pill-safe { background: linear-gradient(135deg, #E8F5E9 0%, #d4edda 100%); color: #1b5e20; border-color: rgba(27,94,32,0.12); }
-.pill-warn { background: linear-gradient(135deg, #FFF8E1 0%, #ffecb3 100%); color: #e65100; border-color: rgba(230,81,0,0.12); }
-.pill-alert { background: linear-gradient(135deg, #FCE4EC 0%, #f8bbd9 100%); color: #c62828; border-color: rgba(198,40,40,0.12); }
+.pill:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 3px 8px rgba(0,0,0,0.12); }
+.pill-safe { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); color: #1b5e20; border-color: rgba(27,94,32,0.15); }
+.pill-warn { background: linear-gradient(135deg, #FFF8E1 0%, #FFE082 100%); color: #e65100; border-color: rgba(230,81,0,0.15); }
+.pill-alert { background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%); color: #c62828; border-color: rgba(198,40,40,0.15); }
 
 /* ====== Evidence Cards ====== */
-.ev-grid { display: grid; gap: 16px; }
+.ev-grid { display: grid; gap: 20px; }
 @media (min-width: 768px) { .ev-grid.cols-2 { grid-template-columns: 1fr 1fr; } .ev-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; } .ev-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; } }
 
 .ev-card {
-  background: #fff; border-radius: 16px; padding: 24px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04); border: 1px solid var(--border);
-  text-align: center; transition: box-shadow 0.3s;
+  background: var(--bg-white); border-radius: var(--radius-lg); padding: 32px 28px;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  text-align: center; transition: var(--transition-default);
 }
-.ev-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-.ev-card .num { font-family: var(--font-serif); font-size: 36px; font-weight: 700; color: var(--teal); line-height: 1.2; }
-.ev-card .suffix { font-family: var(--font-serif); font-size: 20px; color: var(--teal); }
-.ev-card .label { font-size: 13px; color: var(--text-sec); font-weight: 500; margin-top: 6px; }
-.ev-card .sub { font-size: 11px; color: var(--text-sec); opacity: 0.7; margin-top: 3px; }
+.ev-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: rgba(45,82,73,0.15); }
+.ev-card .num { font-family: var(--font-serif); font-size: 38px; font-weight: 700; color: var(--teal); line-height: 1.15; letter-spacing: -0.02em; }
+.ev-card .suffix { font-family: var(--font-serif); font-size: 22px; color: var(--teal); font-weight: 600; }
+.ev-card .label { font-size: 13.5px; color: var(--text-sec); font-weight: 500; margin-top: 8px; letter-spacing: 0.01em; }
+.ev-card .sub { font-size: 11.5px; color: var(--text-sec); opacity: 0.65; margin-top: 4px; }
 
 /* ====== Dose Bars ====== */
-.dose-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-.dose-bar .label { font-size: 13px; color: var(--text-sec); min-width: 70px; text-align: right; font-weight: 500; }
-.dose-bar .track { flex: 1; height: 10px; background: #EAEAEA; border-radius: 999px; overflow: hidden; position: relative; }
-.dose-bar .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal), #3D6B62); width: 0; transition: width 1.2s ease; }
-.dose-bar .fill-gold { background: linear-gradient(90deg, var(--gold), #E8C84A); }
-.dose-bar .val { font-size: 12px; color: var(--text-sec); min-width: 60px; text-align: right; font-family: var(--font-mono); }
+.dose-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.dose-bar .label { font-size: 13.5px; color: var(--text-sec); min-width: 75px; text-align: right; font-weight: 600; }
+.dose-bar .track { flex: 1; height: 11px; background: #E2E0DB; border-radius: 999px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.06); }
+.dose-bar .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal) 0%, #3D6B62 60%, #4A7D72 100%); width: 0; transition: width 1.4s cubic-bezier(0.25, 0.1, 0.25, 1); }
+.dose-bar .fill-gold { background: linear-gradient(90deg, var(--gold) 0%, #D4B83A 60%, #E0C84E 100%); }
+.dose-bar .val { font-size: 12.5px; color: var(--text); min-width: 65px; text-align: right; font-family: var(--font-mono); font-weight: 600; }
 
 /* ====== Typography ====== */
-p { font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
-h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; }
-h4 { font-size: 15px; font-weight: 700; margin: 16px 0 8px; }
+p { font-size: 15.5px; line-height: 1.85; margin-bottom: 16px; letter-spacing: 0.005em; }
+h3 { font-size: 20px; font-weight: 700; margin: 40px 0 14px; letter-spacing: -0.01em; line-height: 1.3; }
+h4 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; letter-spacing: -0.005em; line-height: 1.35; }
 strong { font-weight: 600; }
 
-.gold-line { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 40px 0; }
+.gold-line { height: 1.5px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent); margin: 48px 0; border-radius: 1px; }
 
 /* ====== Back to Top ====== */
 #btt {
-  position: fixed; bottom: 20px; right: 20px; z-index: 100;
-  width: 44px; height: 44px; border-radius: 50%; border: none;
+  position: fixed; bottom: 24px; right: 24px; z-index: 100;
+  width: 48px; height: 48px; border-radius: 50%; border: none;
   background: var(--text); color: var(--gold); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  opacity: 0; pointer-events: none; transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  font-size: 18px;
 }
 #btt.show { opacity: 1; pointer-events: auto; }
+#btt:hover { transform: translateY(-3px) scale(1.08); box-shadow: 0 8px 28px rgba(0,0,0,0.28); color: #E0C050; }
+#btt:active { transform: translateY(-1px) scale(1.02); }
 
 /* ====== Print ====== */
 @media print {
-  #btt, .scroll-hint { display: none !important; }
-  body { background: #fff !important; }
+  #btt, .scroll-hint, .hero-grid, .hero-glow { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .card, .box, .ev-card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+  .tbl { box-shadow: none !important; border: 1px solid #ddd !important; }
+  .section { padding: 30px 20px !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -343,7 +444,7 @@ strong { font-weight: 600; }
   </style>
  </head>
  <body>
-  <a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--text);color:#fff;padding:8px 16px;border-radius:0 0 8px 0;z-index:9999;transition:top 0.2s;font-size:13px;text-decoration:none;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">跳转到主内容</a>
+  <a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--text);color:#fff;padding:10px 18px;border-radius:0 0 10px 0;z-index:9999;transition:top 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);font-size:13.5px;text-decoration:none;font-weight:500;letter-spacing:0.02em;box-shadow:0 4px 12px rgba(0,0,0,0.15);" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">跳转到主内容</a>
   <!-- ====== HERO ====== -->
   <section class="hero" id="hero">
    <div class="hero-grid">
@@ -364,7 +465,7 @@ strong { font-weight: 600; }
      <br/>
      对六组件联合营养方案的系统性循证评估与安全性分析
     </p>
-    <div class="hero-notice" style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:16px 20px;margin:0 auto 24px;max-width:720px;text-align:left;opacity:0;animation:fadeInUp 0.8s ease forwards 0.9s;">
+    <div class="hero-notice" style="background:linear-gradient(135deg, rgba(200,168,43,0.1) 0%, rgba(200,168,43,0.05) 100%);border:1.5px solid rgba(200,168,43,0.3);border-radius:14px;padding:20px 24px;margin:0 auto 28px;max-width:720px;text-align:left;opacity:0;animation:fadeInUp 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.9s;backdrop-filter:blur(4px);">
      <p style="font-size:13px;color:rgba(255,255,255,0.75);margin:0;line-height:1.7;">
       <strong style="color:var(--gold);">方案定位</strong>：本方案旨在针对中国人群膳食营养素的<strong style="color:rgba(255,255,255,0.9);">结构性不足</strong>进行精准补充，兼顾个体化需求差异，并刻意保留充足的膳食空间——以避免过度补充，同时为天然食物中的其他有益营养素留出余地。请将其视为<strong style="color:rgba(255,255,255,0.9);">基础的结构性填充</strong>，而非完整的营养素依靠。均衡膳食始终是健康的首要基石。
      </p>
@@ -405,10 +506,10 @@ strong { font-weight: 600; }
        §
       </span>
       <div>
-       <h2 style="margin-bottom:2px;">
+       <h2 style="margin-bottom:4px;">
         目录
        </h2>
-       <p style="font-size:13px;color:var(--text-sec);font-family:var(--font-serif);font-style:italic;">
+       <p style="font-size:13.5px;color:var(--text-sec);font-family:var(--font-serif);font-style:italic;letter-spacing:0.02em;">
         Table of Contents
        </p>
       </div>
@@ -477,7 +578,7 @@ strong { font-weight: 600; }
      <div class="card-bar">
      </div>
      <div class="card-inner">
-      <div class="box-amber" style="margin:0 0 18px;padding:14px 18px;font-size:13.5px;line-height:1.7;">
+      <div class="box-amber" style="margin:0 0 20px;padding:18px 22px;font-size:14px;line-height:1.75;border-radius:var(--radius-sm);">
        <span class="box-tag" style="margin-bottom:6px;display:inline-block;">POSITIONING</span>
        <p style="margin:0;font-size:13.5px;line-height:1.7;">
         <strong style="color:#9A5B1A;">方案定位</strong>：本方案旨在针对中国人群膳食营养素的<strong>结构性不足</strong>进行精准补充，兼顾个体化需求差异，并刻意保留充足的膳食空间——以避免过度补充并容纳天然食物中的其他有益营养素。请读者将其视为<strong>基础的结构性填充</strong>，而非完整的营养素依靠。均衡膳食始终是健康的第一基石。
@@ -544,14 +645,14 @@ strong { font-weight: 600; }
      <p class="subtitle">
       评估对象为由4种胶囊制剂、低钠盐及膳食纤维粉构成的每日固定补充组合
      </p>
-     <div class="box-blue" style="margin:18px 0 6px;text-align:left;">
+     <div class="box-blue" style="margin:22px 0 8px;text-align:left;">
       <p style="margin:0;font-size:13.5px;line-height:1.7;">
        <strong style="color:#1565C0;">重要提醒</strong>：本方案并非旨在替代均衡膳食，而是识别并填补中国典型膳食模式中常见的<strong>营养素结构性缺口</strong>。方案刻意控制剂量，保留充足的膳食空间，让天然食物继续发挥不可替代的营养角色。请将其理解为<strong>膳食的辅助支撑</strong>，而非营养摄入的全部来源。
       </p>
      </div>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 1  六组件联合方案产品规格与服用剂量
@@ -723,7 +824,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <!-- 2.1 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin-bottom:16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin-bottom:18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.1 Pure Therapro Rx Methyl Multi
      </strong>
@@ -732,7 +833,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 2  Methyl Multi 日摄入成分明细
@@ -1243,7 +1344,7 @@ strong { font-weight: 600; }
      </div>
     </div>
     <!-- 2.2 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin:40px 0 18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.2 Doctor's Best Calcium Bone Maker Complex
      </strong>
@@ -1252,7 +1353,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 3  Calcium Bone Maker 日摄入成分明细
@@ -1496,7 +1597,7 @@ strong { font-weight: 600; }
      </div>
     </div>
     <!-- 2.3 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin:40px 0 18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.3 Swanson Albion Calcium
      </strong>
@@ -1505,7 +1606,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 4  Swanson Albion 日摄入成分明细
@@ -1568,7 +1669,7 @@ strong { font-weight: 600; }
      </div>
     </div>
     <!-- 2.4 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin:40px 0 18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.4 Seeking Health Optimal Focus
      </strong>
@@ -1577,7 +1678,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 5  Optimal Focus 日摄入成分明细
@@ -1753,7 +1854,7 @@ strong { font-weight: 600; }
      </div>
     </div>
     <!-- 2.5 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin:40px 0 18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.5 Solaray Daily Triple Fiber Powder
      </strong>
@@ -1762,7 +1863,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 6  Triple Fiber Powder 日摄入成分明细
@@ -1908,7 +2009,7 @@ strong { font-weight: 600; }
      * 三源原料粉末合计约13.3 g（Sunfiber 7 g + Solnul 3.5 g + 阿拉伯树胶 2.8 g）
     </p>
     <!-- 2.6 -->
-    <div class="reveal" style="background:#F5F5F0;border-radius:12px;padding:14px 20px;margin:32px 0 16px;font-size:15px;">
+    <div class="reveal" style="background:linear-gradient(135deg, #EBEAE5 0%, #F5F4EF 100%);border-radius:var(--radius-sm);padding:16px 24px;margin:40px 0 18px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 1px 3px rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.04);">
      <strong>
       2.6 低钠盐
      </strong>
@@ -1917,7 +2018,7 @@ strong { font-weight: 600; }
      </span>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 7  低钠盐日摄入贡献
@@ -1985,7 +2086,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 8  全方案营养素来源分解矩阵
@@ -3079,7 +3180,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 9  中国膳食摄入中位数与中欧标准对照
@@ -3466,7 +3567,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 10  营养素总摄入双标准评估（29项，数据来源于表8）
@@ -5154,7 +5255,7 @@ strong { font-weight: 600; }
     <!-- 6.0 MVM Macro Evidence -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        0
       </span>
       基础复合维生素矿物质补充的宏观健康效应
@@ -5167,7 +5268,7 @@ strong { font-weight: 600; }
      </p>
 
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        认知保护：三项子研究预设汇总
@@ -5178,7 +5279,7 @@ strong { font-weight: 600; }
      </p>
 
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        表观遗传时钟：生物衰老速度的分子证据
@@ -5188,7 +5289,7 @@ strong { font-weight: 600; }
       2026 年 3 月发表的 COSMOS 血液亚组 ancillary 研究（n=958, 2 年）进一步评估了 MVM 对五种 DNA 甲基化表观遗传时钟（PCHannum、PCHorvath、PCPhenoAge、PCGrimAge、DunedinPACE）的影响。结果显示，与安慰剂相比，每日 MVM 显著减缓第二代死亡率预测时钟的增速：PCGrimAge 年变化减缓 0.113 年（95%CI −0.205 to −0.020, <em>P</em>=0.017），PCPhenoAge 减缓 0.214 年（95%CI −0.410 to −0.019, <em>P</em>=0.032），综合相当于<strong>2 年内生物衰老减缓约 4 个月</strong><sup>[60]</sup>。基线生物衰老加速者（PCGrimAge 残差 >0）获益更显著（交互作用 <em>P</em>=0.018），提示 MVM 可能通过纠正隐性微量营养素不足而发挥"查漏补缺"效应。可可提取物（500 mg/d 黄烷醇）对五种时钟均无显著影响，反衬广谱 MVM 多营养素协同的稳健性。
      </p>
 
-     <div class="box-amber" style="margin:16px 0;">
+     <div class="box-amber" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>
        从标准 MVM 到活性 MVM 的升级声明
       </h4>
@@ -5201,7 +5302,7 @@ strong { font-weight: 600; }
     <!-- 6.1 Bone Metabolism -->
     <div class="reveal">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        1
       </span>
       骨代谢支持链：钙-维生素D-K2-硼
@@ -5218,7 +5319,7 @@ strong { font-weight: 600; }
       ，安全边际充裕。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        双源钙设计的技术特征
@@ -5357,7 +5458,7 @@ strong { font-weight: 600; }
        </p>
       </div>
      </div>
-     <div class="box-blue" style="margin:16px 0;">
+     <div class="box-blue" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>
        D3–K2–钙–硼四环节骨代谢支持链
       </h4>
@@ -5420,7 +5521,7 @@ strong { font-weight: 600; }
       。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        维生素D3的癌症死亡率额外获益
@@ -5545,7 +5646,7 @@ strong { font-weight: 600; }
     <!-- 6.2 Cognitive Protection -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        2
       </span>
       认知保护：基于胆碱的多靶点协同
@@ -5581,7 +5682,7 @@ strong { font-weight: 600; }
       （提供约 83 mg 胆碱），接近临床认知干预活性剂量区间（500-1000 mg/天），其药理作用远超胆碱供给本身。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        胞磷胆碱钠400 mg：临床证据与安全性档案
@@ -5649,7 +5750,7 @@ strong { font-weight: 600; }
       ，与胞磷胆碱钠400 mg互补而非竞争。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        五靶点协同机制
@@ -5672,7 +5773,7 @@ strong { font-weight: 600; }
       </strong>
       ，覆盖胆碱能传递、突触膜修复、AChE抑制及神经炎症调节：
      </p>
-     <div class="tbl-wrapper" style="margin:16px 0;">
+     <div class="tbl-wrapper" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <div class="tbl tbl-compact" style="min-width:600px;">
        <table>
         <thead>
@@ -5908,7 +6009,7 @@ strong { font-weight: 600; }
        </p>
       </div>
      </div>
-     <div class="box-amber" style="margin:16px 0;">
+     <div class="box-amber" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>
        使用建议与安全性考量
       </h4>
@@ -5927,7 +6028,7 @@ strong { font-weight: 600; }
     <!-- 6.3 Methylation -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        3
       </span>
       活性B族与甲基化循环优化
@@ -5936,7 +6037,7 @@ strong { font-weight: 600; }
       中国成人膳食维生素B1、B2不足率均超过80%，叶酸达标率不足50%。MTHFR C677T多态性在中国汉族人群中T等位基因频率约41–45%（北方高达50–63%），该突变使5,10-亚甲基四氢叶酸还原为5-MTHF的效率下降30–70%，直接导致同型半胱氨酸（Hcy）再甲基化受阻。本方案以Quatrefolic 425 μg + 甲基B12 125 μg + PLP 5.0 mg + RFP 5.0 mg覆盖甲基化循环双路径，辅以TMG 37.5 mg、苯磷硫胺 2.5 mg、烟酰胺 16.0 mg NE、泛酸 50 mg、生物素 250 μg及全谱B族协同成分，旨在以低剂量多通路构成从甲基化到能量代谢的活性B族支持网络。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        甲基化循环双路径设计
@@ -6006,12 +6107,12 @@ strong { font-weight: 600; }
        <p style="font-size:14px;">10,601名健康成人血浆分析：PLP-tHcy负相关在MTHFR 677TT基因型者中<strong>最显著</strong>，提示再甲基化受限时，PLP驱动的<strong>CBS转硫化旁路</strong>是降低Hcy的关键代偿机制。本方案B6以PLP活性形式直接供给CBS<sup>[26]</sup>。</p>
       </div>
      </div>
-     <div class="box-blue" style="margin:16px 0;">
+     <div class="box-blue" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <span class="box-tag">RCT | Stirban 2006 | <em>Diabetes Care</em> | n=13</span>
       <h4>苯磷硫胺与高AGE餐后的内皮保护</h4>
       <p style="font-size:14px;">13名T2DM患者，benfotiamine 1,050 mg/d×3天后给予高AGE餐（15,100 AGE kU）：高AGE餐引起的FMD最大损害<strong>-35.1%</strong>和微血管反应性充血最大下降<strong>-60.0%</strong>均被<strong>完全阻止</strong>。血清MG、E-selectin、VCAM-1及ICAM-1的餐后升高被显著抑制<sup>[56]</sup>。机制上，TPP激活转酮醇酶增强戊糖磷酸途径通量，促进AGE前体甲基乙二醛（MG）清除，阻断AGE形成、PKC激活和己糖胺通路三条高糖毒性路径的活化（机制存在，但本方案剂量远低于试验剂量，效应预期不可直接外推）。</p>
      </div>
-     <div class="box-blue" style="margin:16px 0;">
+     <div class="box-blue" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>再甲基化—转硫化—BHMT—TPP四通路协同</h4>
       <div style="font-size:14px;">
        <p><strong>① 再甲基化主轴</strong>：Quatrefolic 425 μg + 甲基B12 125 μg → MTR催化Hcy→甲硫氨酸→SAM，支持全身200余种甲基转移反应。5-MTHF直接绕过MTHFR C677T代谢瓶颈。</p>
@@ -6060,7 +6161,7 @@ strong { font-weight: 600; }
     <!-- 6.4 Dietary Fiber & Prebiotics -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        4
       </span>
       膳食纤维与益生元的双重生理作用
@@ -6161,7 +6262,7 @@ strong { font-weight: 600; }
       </p>
      </div>
 
-     <div class="box-amber" style="margin:16px 0;">
+     <div class="box-amber" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <span class="box-tag">主体益生元 | 7 g | 核心载体</span>
       <h4>Sunfiber（部分水解瓜儿胶）：核心益生元载体</h4>
       <p style="font-size:14px;">
@@ -6199,7 +6300,7 @@ strong { font-weight: 600; }
     <!-- 6.5 Sodium-Potassium Balance -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        5
       </span>
       钠钾平衡与心血管保护
@@ -6274,7 +6375,7 @@ strong { font-weight: 600; }
       </div>
      </div>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        低钠盐策略的获益-成本优势
@@ -6335,7 +6436,7 @@ strong { font-weight: 600; }
        </div>
       </div>
      </div>
-     <div class="box-amber" style="margin:16px 0;">
+     <div class="box-amber" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>
        使用提示
       </h4>
@@ -6347,7 +6448,7 @@ strong { font-weight: 600; }
     <!-- 6.6 Mineral Network -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        6
       </span>
       矿物质网络：镁、锌、硒、碘等
@@ -6534,7 +6635,7 @@ strong { font-weight: 600; }
       三者在氧化还原稳态、免疫调节和内分泌轴中扮演催化角色：
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:14px;font-weight:600;">
        硒 63.3 μg
@@ -6603,7 +6704,7 @@ strong { font-weight: 600; }
       。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:14px;font-weight:600;">
        锌 20 mg：锌-铜平衡
@@ -6669,7 +6770,7 @@ strong { font-weight: 600; }
       。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:14px;font-weight:600;">
        碘 157.5 μg
@@ -6738,7 +6839,7 @@ strong { font-weight: 600; }
     <!-- 6.7 Antioxidant -->
     <div class="reveal" style="margin-top:48px;">
      <h3>
-      <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);font-weight:700;margin-right:10px;vertical-align:middle;">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg, var(--teal) 0%, #3D6B62 100%);color:#fff;align-items:center;justify-content:center;font-size:11.5px;font-family:var(--font-mono);font-weight:700;margin-right:12px;vertical-align:middle;box-shadow:0 2px 8px rgba(45,82,73,0.25);letter-spacing:0.02em;">
        7
       </span>
       抗氧化体系：低剂量维生素E与维生素C协同再生
@@ -6802,7 +6903,7 @@ strong { font-weight: 600; }
       </div>
      </div>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        280 mg的覆盖逻辑：跨越"最佳"与"饱和"双重阈值
@@ -6834,7 +6935,7 @@ strong { font-weight: 600; }
       。这意味着高剂量合成E不仅自身的有效组分有限，还可能通过抑制γ-生育酚而净降低体内某些抗氧化通路的效能。本方案7.5 mg天然RRR型完全规避了这一代谢陷阱。
      </p>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        高剂量风险证据：剂量与形式的警示
@@ -6972,7 +7073,7 @@ strong { font-weight: 600; }
       </div>
      </div>
      <div style="margin:16px 0 10px;">
-      <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+      <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
       </span>
       <span style="font-size:13px;font-weight:600;">
        低剂量安全性：从间接推导到直接证据
@@ -7019,7 +7120,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       安全性注释
@@ -7069,7 +7170,7 @@ strong { font-weight: 600; }
      </p>
     </div>
     <div class="reveal" style="margin-bottom:10px;">
-     <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-right:8px;">
+     <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg, var(--gold), #D4B83A);border-radius:3px;vertical-align:middle;margin-right:10px;box-shadow:0 1px 3px rgba(200,168,43,0.25);">
      </span>
      <span style="font-size:13px;font-weight:600;">
       表 11  不同人群特征与方案适配性
@@ -7412,7 +7513,7 @@ strong { font-weight: 600; }
        </p>
       </div>
      </div>
-     <div class="box-amber" style="margin:16px 0;">
+     <div class="box-amber" style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h4>
        跨标准对照说明
       </h4>
@@ -7420,7 +7521,7 @@ strong { font-weight: 600; }
        锌 ~20 mg：中国UL框架下占50%，安全裕量充裕；EFSA UL框架下占80%，相对保守。方案已协同供给铜2.25 mg，锌/铜比约8.9:1，铜抑制风险可控。以中国DRIs为首要基准，无需常规监测；如个人希望参照EFSA更严格标准，可酌情关注铜营养状况。钾2,268-2,528 mg不足~接近EFSA AI（3,500 mg，65-72%），核心获益在于钠钾比改善。硒63.3 μg接近EFSA PRI（70 μg，90%）。碘157.5 μg达EFSA AI（150 μg，105%）。膳食纤维男性略不足（建议额外补充约5-10 g以达标），个人建议通过增加全谷物或蔬菜补充约5 g以完全达标。
       </p>
      </div>
-     <div style="margin:16px 0;">
+     <div style="margin:20px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;">
       <h3>
        适用边界
       </h3>
